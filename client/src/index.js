@@ -15,12 +15,12 @@ import { BrowserRouter } from 'react-router-dom';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 <React.StrictMode>
-<Provider store={store}>
+{/* <Provider store={store}> */}
     <BrowserRouter>
     <PrimeReactProvider>
     <App />
     </PrimeReactProvider>
     </BrowserRouter>
-    </Provider>
+    {/* </Provider> */}
 </React.StrictMode>
 );

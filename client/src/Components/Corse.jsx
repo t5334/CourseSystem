@@ -4,6 +4,7 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { useState } from "react";
 import { InputText } from 'primereact/inputtext';
+import CourseRegistration from './CourseRegistration'
 export default function Corse() {
     const [visibleUpdate, setVisibleUpdate] = useState(false);
     const [visibleDelete, setVisibleDelete] = useState(false);
@@ -14,7 +15,9 @@ export default function Corse() {
     const inputDomain = useRef(null)
     const inputMinClass = useRef(null)
     const inputMaxClass = useRef(null)
-
+ const Register=()=>{
+<CourseRegistration/>
+ }
     const footerDelete = (
         <div>
             <Button label="No" icon="pi pi-times" onClick={() => setVisibleDelete(false)} className="p-button-text" />
@@ -34,8 +37,8 @@ export default function Corse() {
         <>
             <Button severity="danger" icon="pi pi-trash" tooltip="Delete" tooltipOptions={{ position: 'bottom' }} onClick={() => setVisibleDelete(true)} />
             <Button severity='info' icon="pi pi-pencil" style={{ marginLeft: '0.5em' }} tooltip="Update" tooltipOptions={{ position: 'bottom' }} onClick={() => setVisibleUpdate(true)} />
-            {/* <Button severity="warning" icon="pi pi-eye" style={{ marginLeft: '0.5em' }} tooltip="Show" tooltipOptions={{ position: 'bottom' }} onClick={() => setVisibleDetails(true)} />
-            <div className="card flex justify-content-center">
+            <Button severity="warning"label='לרישום' icon="pi pi-eye" style={{ marginLeft: '0.5em' }} tooltip="Register" tooltipOptions={{ position: 'bottom' }} onClick={Register()} />
+            {/* <div className="card flex justify-content-center">
                 <InputSwitch checked={checked} onChange={(e) => updateComplete()} />
             </div> */}
         </>
