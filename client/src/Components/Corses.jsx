@@ -43,7 +43,7 @@ export default function Corses() {
     );
     return (<>
         <h1>todos</h1>
-        <Button icon="pi pi-plus" rounded aria-label="Filter" direction="up-left" style={{ right: -100, bottom: 50 }} tooltip="Add todo" onClick={() => setVisibleCreate(true)} />
+        <Button icon="pi pi-plus" rounded aria-label="Filter" direction="up-left" style={{ right: -100, bottom: 50 }} tooltip="Add corse" onClick={() => setVisibleCreate(true)} />
         <Dialog header="Create new todo" visible={visibleCreate} style={{ width: '50vw' }} onHide={() => { if (!visibleCreate) return; setVisibleCreate(false); }} footer={footerContent}>
 
             <div class="field grid"  >
