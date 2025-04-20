@@ -1,3 +1,9 @@
+import React, { useRef } from 'react';
+import { Card } from 'primereact/card';
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
+import { useState } from "react";
+import { InputText } from 'primereact/inputtext';
 export default function Corse() {
     const [visibleUpdate, setVisibleUpdate] = useState(false);
     const [visibleDelete, setVisibleDelete] = useState(false);

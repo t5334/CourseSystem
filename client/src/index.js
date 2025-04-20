@@ -10,14 +10,17 @@ import './index.css';
 import './flags.css';
 import App from './App';
 import store from './app/store';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 <React.StrictMode>
 <Provider store={store}>
+    <BrowserRouter>
     <PrimeReactProvider>
     <App />
     </PrimeReactProvider>
+    </BrowserRouter>
     </Provider>
 </React.StrictMode>
 );
