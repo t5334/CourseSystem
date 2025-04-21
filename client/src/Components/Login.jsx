@@ -15,8 +15,9 @@ const login=async()=>{
         password:Inputpassword.current.value
     }
     try{
-    const res = await axios.post('http://localhost:6000/api/auth/login', user)
+    const res = await axios.post('http://localhost:7000/api/auth/login', user)
     //לשלוח לקומפוננטה נכונה
+    console.log("login");
     console.log(res);
     }
     catch(e){
@@ -45,12 +46,12 @@ console.log(e);
             <div className="flex flex-column md:flex-row">
                 <div className="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-3 py-5">
                     <div className="flex flex-wrap justify-content-center align-items-center gap-2">
-                        <label className="w-6rem">Username</label>
-                        <InputText ref={Inputusername}id="username" type="text" className="w-12rem" />
+                        <label className="w-6rem">שם משתמש:</label>
+                        <InputText ref={Inputusername}id="username" type="text" className="w-12rem" required/>
                     </div>
                     <div className="flex flex-wrap justify-content-center align-items-center gap-2">
-                        <label className="w-6rem">Password</label>
-                        <InputText ref={Inputpassword} id="password" type="password" className="w-12rem" />
+                        <label className="w-6rem">סיסמא:</label>
+                        <InputText ref={Inputpassword} id="password" type="password" className="w-12rem" required/>
                     </div>
                     <Button label="Login" icon="pi pi-user" className="w-10rem mx-auto" onClick={login}></Button>
                 </div>

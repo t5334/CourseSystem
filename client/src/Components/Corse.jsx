@@ -18,6 +18,12 @@ export default function Corse() {
  const Register=()=>{
 <CourseRegistration/>
  }
+ const update=()=>{
+
+ }
+ const del=()=>{
+    
+ }
     const footerDelete = (
         <div>
             <Button label="No" icon="pi pi-times" onClick={() => setVisibleDelete(false)} className="p-button-text" />

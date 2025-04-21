@@ -41,6 +41,19 @@ export default function Corses() {
             <Button label="Save" icon="pi pi-check" onClick={() => add()} autoFocus />
         </div>
     );
+    const getCorses = async () => {
+        
+        try {
+            const res = await axios.get('http://localhost:7000/api/course')
+            if (res.status === 200) {
+                console.log(res.data);
+                setUsersData(res.data)
+            }
+        } catch (e) {
+            console.error(e)
+        }
+
+    }
     return (<>
         <h1>todos</h1>
         <Button icon="pi pi-plus" rounded aria-label="Filter" direction="up-left" style={{ right: -100, bottom: 50 }} tooltip="Add corse" onClick={() => setVisibleCreate(true)} />

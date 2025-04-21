@@ -5,8 +5,8 @@ import CourseRegistration from './Components/CourseRegistration'
 function App() {
   return (
     <div className="App">
-      {/* <LoginDemo/> */}
-      <CourseRegistration/>
+      <LoginDemo/>
+      {/* <CourseRegistration/> */}
     </div>
   );
 }
