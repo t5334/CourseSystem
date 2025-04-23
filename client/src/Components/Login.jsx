@@ -6,19 +6,24 @@ import { Button } from 'primereact/button';
 import StudentRegistration from './StudentRegistration';
 import { Dialog } from 'primereact/dialog';
 import axios from 'axios'
+import Corses from './Corses'
+import { useNavigate } from 'react-router-dom';
 export default function LoginDemo() {
 const Inputusername=useRef(null)
 const Inputpassword=useRef(null)
+const navigate = useNavigate();
 const login=async()=>{
+    
     const user={
         userName:Inputusername.current.value,
         password:Inputpassword.current.value
     }
     try{
     const res = await axios.post('http://localhost:7000/api/auth/login', user)
-    //לשלוח לקומפוננטה נכונה
     console.log("login");
     console.log(res);
+    //לתפוס את התוקן
+    navigate('/courses');
     }
     catch(e){
 console.log(e);
@@ -53,22 +58,31 @@ console.log(e);
                         <label className="w-6rem">סיסמא:</label>
                         <InputText ref={Inputpassword} id="password" type="password" className="w-12rem" required/>
                     </div>
-                    <Button label="Login" icon="pi pi-user" className="w-10rem mx-auto" onClick={login}></Button>
+                    <Button label="כניסה" icon="pi pi-user" className="w-10rem mx-auto" onClick={login}></Button>
                 </div>
                 <div className="w-full md:w-2">
                     <Divider layout="vertical" className="hidden md:flex">
-                        <b>OR</b>
+                        <b>או</b>
                     </Divider>
                     <Divider layout="horizontal" className="flex md:hidden" align="center">
                         <b>OR</b>
                     </Divider>
                 </div>
                 <div className="w-full md:w-5 flex align-items-center justify-content-center py-5">
-                    <Button label="Sign Up" icon="pi pi-user-plus" severity="success" className="w-10rem" onClick={() => {
+                    <Button label="רישום תלמידה" icon="pi pi-user-plus" severity="success" className="w-12rem" onClick={() => {
                 handleRegisterClick();
                 openDialog();
-            }}></Button>
-                </div>
+            }}></Button> 
+ <div className="w-full d-flex justify-content-center mt-2">
+                <Button 
+                    label="רישום למורה" 
+                    onClick={() => {/* Add logic for teacher signup */}} 
+                    className="w-10rem" 
+                    icon="pi pi-user-plus" 
+                    //severity="success"
+                />
+            </div>
+        </div>   
             </div>
             <Dialog 
                 header="Register" 
@@ -78,7 +92,7 @@ console.log(e);
                 style={{width:'30vw',height:"30vw"}}
                 breakpoints={{ '960px': '75vw', '641px': '100vw' }}
             >
-                <StudentRegistration/>
+                <StudentRegistration closeDialog={closeDialog} visible={visible}/>
             </Dialog>
         </div>
     )

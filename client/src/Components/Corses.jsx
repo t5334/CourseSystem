@@ -26,7 +26,7 @@ export default function Corses() {
         }
         try {
             const res = await axios.post('http://localhost:7000/api/course', newCorse)
-            setTodosData(res.data)
+            //setTodosData(res.data)
             setVisibleCreate(false)
         } catch (error) {
 
@@ -47,7 +47,7 @@ export default function Corses() {
             const res = await axios.get('http://localhost:7000/api/course')
             if (res.status === 200) {
                 console.log(res.data);
-                setUsersData(res.data)
+                //setUsersData(res.data)
             }
         } catch (e) {
             console.error(e)
@@ -55,7 +55,7 @@ export default function Corses() {
 
     }
     return (<>
-        <h1>todos</h1>
+        <h1>Corses</h1>
         <Button icon="pi pi-plus" rounded aria-label="Filter" direction="up-left" style={{ right: -100, bottom: 50 }} tooltip="Add corse" onClick={() => setVisibleCreate(true)} />
         <Dialog header="Create new todo" visible={visibleCreate} style={{ width: '50vw' }} onHide={() => { if (!visibleCreate) return; setVisibleCreate(false); }} footer={footerContent}>
 

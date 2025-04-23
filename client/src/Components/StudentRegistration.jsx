@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import { InputText } from 'primereact/inputtext';
 import axios from "axios";
-export default function StudentRegistration() {
+export default function StudentRegistration(props) {
     const { register, handleSubmit } = useForm()
     const onSubmit = async (data) => {
         try {
@@ -10,6 +10,7 @@ export default function StudentRegistration() {
                 console.log(res.data);
             if (res.status == 201)
                 console.log(data);
+props.closeDialog()
             //  setUsersData(res.data)
             // setVisibleCreate(false)
         } catch (error) {
