@@ -8,10 +8,12 @@ import { Dialog } from 'primereact/dialog';
 import axios from 'axios'
 import Corses from './Corses'
 import { useNavigate } from 'react-router-dom';
+import TeacherRegistration from './TeacherRegistartion'
 export default function LoginDemo() {
 const Inputusername=useRef(null)
 const Inputpassword=useRef(null)
 const navigate = useNavigate();
+//למחוק את מה שיש במשתנה הגלובלי 
 const login=async()=>{
     
     const user={
@@ -23,7 +25,7 @@ const login=async()=>{
     console.log("login");
     console.log(res);
     //לתפוס את התוקן
-    navigate('/courses');
+    navigate('layout/courses');
     }
     catch(e){
 console.log(e);
@@ -76,7 +78,8 @@ console.log(e);
  <div className="w-full d-flex justify-content-center mt-2">
                 <Button 
                     label="רישום למורה" 
-                    onClick={() => {/* Add logic for teacher signup */}} 
+                    onClick={() => { handleRegisterClick();
+                        openDialog();}} 
                     className="w-10rem" 
                     icon="pi pi-user-plus" 
                     //severity="success"
@@ -93,6 +96,15 @@ console.log(e);
                 breakpoints={{ '960px': '75vw', '641px': '100vw' }}
             >
                 <StudentRegistration closeDialog={closeDialog} visible={visible}/>
+            </Dialog>
+            <Dialog
+            header="Register" 
+            visible={visible} 
+            modal 
+            onHide={closeDialog}
+            style={{width:'30vw',height:"30vw"}}
+            breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+                <TeacherRegistration closeDialog={closeDialog} visible={visible}/>
             </Dialog>
         </div>
     )

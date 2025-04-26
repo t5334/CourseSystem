@@ -14,10 +14,10 @@ const handleAttendanceChange = (e) => {
 
 return (
     <div className="student-info">
-        <h3>Student Information</h3>
-        <p>Course Name: {studentData.courseName}</p>
-        <p>Phone Number: {studentData.phoneNumber}</p>
-        <p>Class: {studentData.className}</p>
+        <h3>פרטי תלמידה:</h3>
+        <p>שם החוג: {studentData.courseName}</p>
+        <p>מספר טלפון: {studentData.phoneNumber}</p>
+        <p>כיתה: {studentData.className}</p>
         <div className="p-field">
             <Checkbox inputId="attendance" checked={attendance} onChange={handleAttendanceChange} />
             <label htmlFor="attendance">Mark Attendance</label>
