@@ -5,8 +5,8 @@ import { Outlet } from 'react-router-dom';
 function Layout() {
     return (
         <div>
-            <Navbar /> {/* Displaying the navigation bar */}
-            <Outlet /> {/* Renders LoginComponent or HomeComponent based on the current route */}
+            <Navbar /> 
+            <Outlet /> 
         </div>
     );
 }

@@ -6,7 +6,7 @@ import { Button } from 'primereact/button';
 import StudentRegistration from './StudentRegistration';
 import { Dialog } from 'primereact/dialog';
 import axios from 'axios'
-import Corses from './Corses'
+import Courses from './Courses'
 import { useNavigate } from 'react-router-dom';
 import TeacherRegistration from './TeacherRegistartion'
 export default function LoginDemo() {

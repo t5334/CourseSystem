@@ -4,7 +4,7 @@ import axios from 'axios'
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-export default function Corses() {
+export default function Courses() {
     const [visibleCreate, setVisibleCreate] = useState(false);
     const inputName = useRef(null)
     const inputDescription = useRef(null)
@@ -16,7 +16,7 @@ export default function Corses() {
     const add = async () => {
         if (!inputName.current.value)
             return alert("Name is required")
-        const newCorse = {
+        const newCourse = {
             name: inputName.current.value,
             description: inputDescription.current.value,
             price: inputPrice.current.value,
@@ -25,7 +25,7 @@ export default function Corses() {
             maxClass: inputMaxClass.current.value,
         }
         try {
-            const res = await axios.post('http://localhost:7000/api/course', newCorse)
+            const res = await axios.post('http://localhost:7000/api/course', newCourse)
             //setTodosData(res.data)
             setVisibleCreate(false)
         } catch (error) {
@@ -41,7 +41,7 @@ export default function Corses() {
             <Button label="Save" icon="pi pi-check" onClick={() => add()} autoFocus />
         </div>
     );
-    const getCorses = async () => {
+    const getCourses = async () => {
         
         try {
             const res = await axios.get('http://localhost:7000/api/course')
@@ -55,7 +55,7 @@ export default function Corses() {
 
     }
     return (<>
-        <h1>Corses</h1>
+        <h1>Courses</h1>
         <Button icon="pi pi-plus" rounded aria-label="Filter" direction="up-left" style={{ right: -100, bottom: 50 }} tooltip="Add corse" onClick={() => setVisibleCreate(true)} />
         <Dialog header="Create new todo" visible={visibleCreate} style={{ width: '50vw' }} onHide={() => { if (!visibleCreate) return; setVisibleCreate(false); }} footer={footerContent}>
 

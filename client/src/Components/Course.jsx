@@ -5,7 +5,7 @@ import { Dialog } from 'primereact/dialog';
 import { useState } from "react";
 import { InputText } from 'primereact/inputtext';
 import CourseRegistration from './CourseRegistration'
-export default function Corse() {
+export default function Course() {
     const [visibleUpdate, setVisibleUpdate] = useState(false);
     const [visibleDelete, setVisibleDelete] = useState(false);
     const inputName = useRef(null)

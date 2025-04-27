@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginDemo from './Components/Login';
 import CourseRegistration from './Components/CourseRegistration';
 import LoginComponent from './Components/Login';
-import Corses from './Components/Corses';
+import Courses from './Components/Courses';
 import Layout from './Components/Layout'
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
         <Routes>
           <Route path="/layout" element={<Layout />}>
           {/* <Route path="/login" element={<LoginComponent />} /> */}
-          <Route path="courses" element={<Corses />} />
+          <Route path="courses" element={<Courses />} />
           </Route>
           <Route path="/" element={<LoginDemo />} /> {/* Set default route */}
           {/* Add other routes as needed */}
