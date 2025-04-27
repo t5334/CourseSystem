@@ -7,12 +7,16 @@ const Navbar = () => {
 
     const items = [
         {
-            label: 'Home',
-            command: () => navigate('/home'),
+            label: 'שיעורים',
+            command: () => navigate('layout/lessons'),
+        },
+        {
+            label: 'חובות',
+            command: () => navigate('layout/debtors'),
         },
         {
             label: 'חוגים',
-            command: () => navigate('/courses'),
+            command: () => navigate('layout/courses'),
         },
         {
             label: 'יציאה',

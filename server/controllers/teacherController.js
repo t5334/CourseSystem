@@ -11,24 +11,25 @@ const createNewTeacher = async (req, res) => {
     const account={bank,acccount,name}
     const teacher = await Teacher.create({account,userId:user._id})
     if (teacher)
-        return  res.status(201).json(teacher)
+        return  res.json(teacher).status(201)
     return res.status(400).send('teacher not created')
 }
 
 const getAllTeachers = async (req, res) => {
     const teachers = await Teacher.find().populate("userId").lean()
     if (!teachers?.length)
-        return res.status(400).send("dont found teachers")
+        return res.status(404).send("dont found teachers")
     res.json(teachers)
 }
 const getTeacherById = async (req, res) => {
     const { id } = req.params
     const teacher = await Teacher.findById(id).populate("userId").lean()
     if (!teacher) {
-        return res.status(400).send("This teacher no found")
+        return res.status(404).send("This teacher not found")
     }
     res.json(teacher)
 }
+
 const updateTeacher = async (req, res) => {
     const { id, bank, acccount,name } = req.body
     if(!id){
@@ -36,7 +37,7 @@ const updateTeacher = async (req, res) => {
     }
     const teacher = await Teacher.findById(id).exec()
     if (!teacher) {
-        return res.status(400).send("The teacher is undefined")
+        return res.status(404).send("The teacher is undefined")
     } 
     userController.updateUser(req, res)
     teacher.account = {bank,acccount,name}

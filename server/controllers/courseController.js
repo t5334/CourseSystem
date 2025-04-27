@@ -2,14 +2,13 @@ const Course = require("../models/Course")
 const mongoose=require("mongoose")
 
 const createNewCourse = async (req, res) => {
-    // console.log(req.user);
     const { name, description,teacherId,price,domain,minClass,maxClass} = req.body
 if(!name){
     res.status(400).send("Name is required")
 }
     const course = await Course.create({name, description,teacherId,price,domain,minClass,maxClass})
     if (course)
-        return  res.send(course)
+        return  res.status(201).send(course)
     return res.status(400).send('course not created')
 }
 

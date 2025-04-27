@@ -5,6 +5,8 @@ import CourseRegistration from './Components/CourseRegistration';
 import LoginComponent from './Components/Login';
 import Courses from './Components/Courses';
 import Layout from './Components/Layout'
+import Debtors from './Components/Debtors';
+import Lesson from './Components/Lesson';
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
           <Route path="/layout" element={<Layout />}>
           {/* <Route path="/login" element={<LoginComponent />} /> */}
           <Route path="courses" element={<Courses />} />
+          <Route path='debtors' element={<Debtors/>}/>
+          <Route path='lessons' element={<Lesson/>}/>
           </Route>
           <Route path="/" element={<LoginDemo />} /> {/* Set default route */}
           {/* Add other routes as needed */}

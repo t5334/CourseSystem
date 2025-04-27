@@ -9,7 +9,7 @@ const createNewLesson = async (req, res) => {
     }
     const lesson = await Lesson.create({ courseId, time, additionalExpenses })
     if (lesson)
-        return getAllLesson(req, res)
+        return res.status(201).send(lesson)
     return res.status(400).send('lesson not created')
 }
 

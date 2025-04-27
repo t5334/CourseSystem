@@ -8,7 +8,7 @@ const verifyJWT = require("../midlleware/verifyJWT")
 router.use(verifyJWT)
 router.post("/",managerMW,teacherController.createNewTeacher)
 router.get("/:id",teacherController.getTeacherById)
-router.get("/",managerMW,teacherController.getAllTeachers)
+router.get("/",managerMW,teacherController.getAllTeachers)//
 router.put("/",managerMW,teacherController.updateTeacher)
 router.delete("/:id",managerMW,teacherController.deleteTeacher)
 

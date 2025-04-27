@@ -11,7 +11,7 @@ router.use(verifyJWT)
 
 router.post("/",registerController.createNewRegister)
 router.get("/debt",registerController.getRegisterByDebt)
-router.get("/course/:id",teacherMW,registerController.getRegisterByCourse)
+router.get("/course/:courseId",registerController.getRegisterByCourse)//teacherMW
 router.get("/student/:id",registerController.getRegisterByStudent)
 router.get("/phone/:id",registerController.getRegistersByPhone)
 router.get("/:id",registerController.getRegisterById)
