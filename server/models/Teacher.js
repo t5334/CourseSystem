@@ -11,11 +11,10 @@ const teacherSchema = new mongoose.Schema({
         acccount: {
             type: Number
         },
-        name: {
+        holder: {
             type: String
         }
     },
-
     salary: {
         type: Number
     }

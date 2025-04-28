@@ -6,7 +6,7 @@ const paymentSchema = new mongoose.Schema({
     },
     way: {
         type: String,
-        enum: ["Check", "Cash", "credit", "Standing order"]
+        enum: ["Check", "Cash", 'Credit Card', "Standing order",'bankTransfer']
     },
     date: {
         type: mongoose.Schema.Types.Date

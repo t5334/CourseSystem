@@ -1,17 +1,20 @@
 const Teacher = require("../models/Teacher")
 const userController = require("./userController")
-const mongoose=require("mongoose")
+const mongoose = require("mongoose")
 
 const createNewTeacher = async (req, res) => {
     const user = await userController.createNewUser(req, res)
-    req.body=req.body+user._id+{role:"Teacher"}
-    userController.updateUser(req,res)
-    console.log(user);
-    const { bank, acccount,name } = req.body
-    const account={bank,acccount,name}
-    const teacher = await Teacher.create({account,userId:user._id})
+
+    req.body.role = "Teacher"
+    req.body.userId = user._id
+    console.log(req.body.role)
+    await userController.updateUser(req, res)
+    
+    const { bank, acccount, holder } = req.body
+    const account = { bank, acccount, holder }
+    const teacher = await Teacher.create({ account, userId: user._id })
     if (teacher)
-        return  res.json(teacher).status(201)
+        return res.status(201).json(teacher)
     return res.status(400).send('teacher not created')
 }
 
@@ -31,16 +34,16 @@ const getTeacherById = async (req, res) => {
 }
 
 const updateTeacher = async (req, res) => {
-    const { id, bank, acccount,name } = req.body
-    if(!id){
+    const { id, bank, acccount, name } = req.body
+    if (!id) {
         return res.status(400).send("The id is required")
     }
     const teacher = await Teacher.findById(id).exec()
     if (!teacher) {
         return res.status(404).send("The teacher is undefined")
-    } 
+    }
     userController.updateUser(req, res)
-    teacher.account = {bank,acccount,name}
+    teacher.account = { bank, acccount, name }
     const updatedTeacher = await teacher.save()
     return res.status(200).json(updatedTeacher)
 }
@@ -52,7 +55,7 @@ const deleteTeacher = async (req, res) => {
         return res.status(400).send("the teacher not found")
     }
     req.params.userId = teacher.userId
-    userController.deleteUser(req,res)
+    userController.deleteUser(req, res)
     const result = await teacher.deleteOne()
     return res.status(204)
 

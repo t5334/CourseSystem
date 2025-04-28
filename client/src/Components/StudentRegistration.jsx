@@ -12,46 +12,92 @@
 //             console.log(error);
 //         }
  //   }
+// 
 import axios from "axios";
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { InputText } from 'primereact/inputtext';
+import { InputNumber } from 'primereact/inputnumber';
+import { Dropdown } from 'primereact/dropdown';
+import { Button } from 'primereact/button';
 
 export default function StudentRegistration(props) {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = async(data)=>{
-    try {
-    const res = await axios.post('http://localhost:7000/api/auth/register', data);
-    if (res.status === 400) {
-        console.log(res.data);
-    }
-    if (res.status === 201) {
-        console.log(res.data);
-    }
-    props.closeDialog();
-} catch (error) {
-    console.log(error);
-}
-  }
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="text" placeholder="שם" {...register("שם", {required: true})} />
-      <input type="text" placeholder="שם משתמש" {...register("שם משתמש", {required: true})} />
-      {/* <input type="password" placeholder="סיסמא" {...register("סיסמא", {, pattern: //^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$//i})} /> */}
-      <input type="email" placeholder="מייל" {...register("מייל", {required: true})} />
-      <input type="tel" placeholder="מספר טלפון" {...register("מספר טלפון", {required: true})} />
-      <select {...register("כיתה", { required: true })}>
-        <option value="א">א</option>
-        <option value="ב">ב</option>
-        <option value="ג">ג</option>
-        <option value="ד">ד</option>
-        <option value="ה">ה</option>
-        <option value="ו">ו</option>
-        <option value="ז">ז</option>
-        <option value="ח">ח</option>
-      </select>
-      <input type="number" placeholder="מספר כיתה" {...register("מספר כיתה", {required: true, max: 10, min: 1, maxLength: 1})} />
 
-      <input type="submit" />
+  const onSubmit = async(data) => {
+    try {
+      const res = await axios.post('http://localhost:7000/api/students', data);
+      if (res.status === 400) {
+        console.log(res.data);
+      }
+      if (res.status === 201) {
+        console.log(res.data);
+      }
+      props.closeDialog();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const classes = [
+    { label: 'א', value: 'א' },
+    { label: 'ב', value: 'ב' },
+    { label: 'ג', value: 'ג' },
+    { label: 'ד', value: 'ד' },
+    { label: 'ה', value: 'ה' },
+    { label: 'ו', value: 'ו' },
+    { label: 'ז', value: 'ז' },
+    { label: 'ח', value: 'ח' },
+  ];
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="p-fluid">
+      <div className="field">
+        <label htmlFor="name">שם</label>
+        <InputText id="name" {...register("שם", { required: true })} />
+        {errors.שם && <small className="p-error">שם הוא שדה חובה.</small>}
+      </div>
+      <div className="field">
+        <label htmlFor="username">שם משתמש</label>
+        <InputText id="username" {...register("שם משתמש", { required: true })} />
+        {errors["שם משתמש"] && <small className="p-error">שם משתמש הוא שדה חובה.</small>}
+      </div>
+      <div className="field">
+      <label htmlFor="username">סיסמא</label>
+          <InputText id="password" type="password" {...register("סיסמא", {
+            required: true,
+            minLength: {
+              value: 8,
+              message: "הסיסמא חייבת להיות באורך של לפחות 8 תווים."
+            },
+            pattern: {
+              value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+              message: "הסיסמא חייבת לכלול לפחות אות גדולה, אות קטנה ומספר."
+            }
+          })} />
+        {errors["סיסמא"] && <small className="p-error">{errors["סיסמא"].message}</small>}
+      </div>
+      <div className="field">
+        <label htmlFor="email">מייל</label>
+        <InputText id="email" type="email" {...register("מייל", { required: true })}  />
+        {errors.מייל && <small className="p-error">מייל הוא שדה חובה.</small>}
+      </div>
+      <div className="field">
+        <label htmlFor="phone">מספר טלפון</label>
+        <InputText id="phone" type="tel" {...register("מספר טלפון", { required: true })}  />
+        {errors["מספר טלפון"] && <small className="p-error">מספר טלפון הוא שדה חובה.</small>}
+      </div>
+      <div className="field">
+        <label htmlFor="class">כיתה</label>
+        <Dropdown id="class" options={classes} {...register("כיתה", { required: true })}  />
+        {errors.כיתה && <small className="p-error">כיתה היא שדה חובה.</small>}
+      </div>
+      <div className="field">
+        <label htmlFor="classNumber">מספר כיתה</label>
+        <InputNumber id="classNumber" {...register("מספר כיתה", { required: true, min: 1, max: 10 })} />
+        {errors["מספר כיתה"] && <small className="p-error">מספר כיתה הוא שדה חובה בין 1 ל-10.</small>}
+      </div>
+      <Button type="submit" label="שלח" />
     </form>
   );
 }

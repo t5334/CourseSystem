@@ -31,22 +31,23 @@ export default function LoginDemo() {
             console.log(e);
         }
     }
+    const [showStudentRegister, setShowStudentRegister] = useState(false);
+    const [showTeacherRegister, setShowTeacherRegister] = useState(false);
 
-
-
-    const [showRegister, setShowRegister] = useState(false);
-
-    const handleRegisterClick = () => {
-        setShowRegister(true);
-    };
-    const [visible, setVisible] = useState(false);
-
-    const openDialog = () => {
-        setVisible(true);
+    const openStudentDialog = () => {
+        setShowStudentRegister(true);
     };
 
-    const closeDialog = () => {
-        setVisible(false);
+    const closeStudentDialog = () => {
+        setShowStudentRegister(false);
+    };
+
+    const openTeacherDialog = () => {
+        setShowTeacherRegister(true);
+    };
+
+    const closeTeacherDialog = () => {
+        setShowTeacherRegister(false);
     };
     return (
         <div className="card">
@@ -71,17 +72,11 @@ export default function LoginDemo() {
                     </Divider>
                 </div>
                 <div className="w-full md:w-5 flex align-items-center justify-content-center py-5">
-                    <Button label="רישום תלמידה" icon="pi pi-user-plus" severity="success" className="w-12rem" onClick={() => {
-                        handleRegisterClick();
-                        openDialog();
-                    }}></Button>
+                    <Button label="רישום תלמידה" icon="pi pi-user-plus" severity="success" className="w-12rem" onClick={openStudentDialog}></Button>
                     <div className="w-full d-flex justify-content-center mt-2">
                         <Button
                             label="רישום למורה"
-                            onClick={() => {
-                                handleRegisterClick();
-                                openDialog();
-                            }}
+                            onClick={openTeacherDialog}  
                             className="w-10rem"
                             icon="pi pi-user-plus"
                         //severity="success"
@@ -90,23 +85,24 @@ export default function LoginDemo() {
                 </div>
             </div>
             <Dialog
-                header="Register"
-                visible={visible}
+                header="Register Student"
+                visible={showStudentRegister}
                 modal
-                onHide={closeDialog}
+                onHide={closeStudentDialog}
                 style={{ width: '30vw', height: "30vw" }}
                 breakpoints={{ '960px': '75vw', '641px': '100vw' }}
             >
-                <StudentRegistration closeDialog={closeDialog} visible={visible} />
+                <StudentRegistration closeDialog={closeStudentDialog} visible={showStudentRegister} />
             </Dialog>
             <Dialog
-                header="Register"
-                visible={visible}
+                header="Register Teacher"
+                visible={showTeacherRegister}
                 modal
-                onHide={closeDialog}
+                onHide={closeTeacherDialog}
                 style={{ width: '30vw', height: "30vw" }}
-                breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
-                <TeacherRegistration closeDialog={closeDialog} visible={visible} />
+                breakpoints={{ '960px': '75vw', '641px': '100vw' }}
+            >
+                <TeacherRegistration closeDialog={closeTeacherDialog} visible={showTeacherRegister} />
             </Dialog>
         </div>
     )

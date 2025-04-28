@@ -22,7 +22,7 @@ const getStudentById = async (req, res) => {
     const { id } = req.params
     const student = await Student.findById(id).populate("userId").lean()
     if (!student) {
-        return res.status(400).send("This student no found")
+        return res.status(400).send("This student not found")
     }
     res.json(student)
 }

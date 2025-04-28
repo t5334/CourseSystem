@@ -83,9 +83,12 @@ const RegistrationForm = () => {
     const [specialNotes, setSpecialNotes] = useState('');
 
     const paymentMethods = [
-        { label: 'Credit Card', value: 'creditCard' },
-        { label: 'PayPal', value: 'paypal' },
-        { label: 'Bank Transfer', value: 'bankTransfer' }
+        { label: 'כרטיס אשראי', value: 'Credit Card' },
+        { label: "צ'ק", value: "Check" },
+        { label: 'העברה בנקאית', value: 'bankTransfer' },
+        { label: 'הוראת קבע', value: "Standing order" },
+        { label: 'מזומן', value: "Cash" },
+
     ];
 
     const handleSubmit = (e) => {
