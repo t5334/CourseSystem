@@ -25,7 +25,7 @@ export default function LoginDemo() {
             console.log("login");
             console.log(res);
             //לתפוס את התוקן
-            navigate('layout/courses');
+            navigate('/courses');
         }
         catch (e) {
             console.log(e);
