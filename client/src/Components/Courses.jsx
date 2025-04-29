@@ -90,19 +90,19 @@ export default function Courses() {
             <Button icon="pi pi-plus" rounded aria-label="Filter" direction="up-left" style={{ right: -100, bottom: 50 }} tooltip="Add course" onClick={() => setVisibleCreate(true)} />
             <Dialog header="Create new course" visible={visibleCreate} style={{ width: '50vw' }} onHide={() => setVisibleCreate(false)} footer={footerContent}>
                 <div className="field grid">
-                    <label htmlFor="name" className="col-12 mb-2 md:col-2 md:mb-0">Name:</label>
+                    <label htmlFor="name" className="col-12 mb-2 md:col-2 md:mb-0">שם:</label>
                     <div className="col-12 md:col-10">
                         <InputText ref={inputName} type='text' /><br />
                     </div>
                 </div>
                 <div className="field grid">
-                    <label htmlFor="Description" className="col-12 mb-2 md:col-2 md:mb-0">Description:</label>
+                    <label htmlFor="Description" className="col-12 mb-2 md:col-2 md:mb-0">תאור:</label>
                     <div className="col-12 md:col-10">
                         <InputText ref={inputDescription} type='text' /><br />
                     </div>
                 </div>
                 <div className="field grid">
-                    <label htmlFor="TecherName" className="col-12 mb-2 md:col-2 md:mb-0">Teacher:</label>
+                    <label htmlFor="TecherName" className="col-12 mb-2 md:col-2 md:mb-0">מורה:</label>
                     <div className="col-12 md:col-10">
                         <Dropdown
                             value={selectedTeacher}
@@ -114,25 +114,25 @@ export default function Courses() {
                     </div>
                 </div>
                 <div className="field grid">
-                    <label htmlFor="Price" className="col-12 mb-2 md:col-2 md:mb-0">Price:</label>
+                    <label htmlFor="Price" className="col-12 mb-2 md:col-2 md:mb-0">מחיר:</label>
                     <div className="col-12 md:col-10">
                         <InputText ref={inputPrice} type='text' /><br />
                     </div>
                 </div>
                 <div className="field grid">
-                    <label htmlFor="Domain" className="col-12 mb-2 md:col-2 md:mb-0">Domain:</label>
+                    <label htmlFor="Domain" className="col-12 mb-2 md:col-2 md:mb-0">תחום:</label>
                     <div className="col-12 md:col-10">
                         <InputText ref={inputDomain} type='text' /><br />
                     </div>
                 </div>
                 <div className="field grid">
-                    <label htmlFor="MinClass" className="col-12 mb-2 md:col-2 md:mb-0">Min Class:</label>
+                    <label htmlFor="MinClass" className="col-12 mb-2 md:col-2 md:mb-0">מכיתה:</label>
                     <div className="col-12 md:col-10">
                         <InputText ref={inputMinClass} type='text' /><br />
                     </div>
                 </div>
                 <div className="field grid">
-                    <label htmlFor="MaxClass" className="col-12 mb-2 md:col-2 md:mb-0">Max Class:</label>
+                    <label htmlFor="MaxClass" className="col-12 mb-2 md:col-2 md:mb-0">עד כיתה:</label>
                     <div className="col-12 md:col-10">
                         <InputText ref={inputMaxClass} type='text' /><br />
                     </div>
@@ -140,7 +140,7 @@ export default function Courses() {
             </Dialog>
 
             <div class="grid">
-                {data.map((item) => { return <Course teachers={teachers} setTeachers course={item} role={"manager"} /> })}
+                {data.map((item) => { return <Course setCourses={setData} teachers={teachers} setTeachers course={item} role={"manager"} /> })}{/*להכניס תפקיד מהמשתמש*/}
                     </div>
         </>
     );

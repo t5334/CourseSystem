@@ -14,7 +14,7 @@
  //   }
 // 
 import axios from "axios";
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { InputText } from 'primereact/inputtext';
 import { InputNumber } from 'primereact/inputnumber';
@@ -22,8 +22,8 @@ import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 
 export default function StudentRegistration(props) {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-
+  const { register, handleSubmit, formState: { errors } ,getValues, setValue } = useForm();
+const [selectedClass,setSelectedClass]=useState("")
   const onSubmit = async(data) => {
     try {
       const res = await axios.post('http://localhost:7000/api/students', data);
@@ -63,34 +63,52 @@ export default function StudentRegistration(props) {
         {errors["שם משתמש"] && <small className="p-error">שם משתמש הוא שדה חובה.</small>}
       </div>
       <div className="field">
-      <label htmlFor="username">סיסמא</label>
-          <InputText id="password" type="password" {...register("סיסמא", {
-            required: true,
-            minLength: {
-              value: 8,
-              message: "הסיסמא חייבת להיות באורך של לפחות 8 תווים."
-            },
-            pattern: {
-              value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
-              message: "הסיסמא חייבת לכלול לפחות אות גדולה, אות קטנה ומספר."
-            }
-          })} />
-        {errors["סיסמא"] && <small className="p-error">{errors["סיסמא"].message}</small>}
-      </div>
+    <label htmlFor="password">סיסמא</label>
+    <InputText
+      id="password"
+      type="password"
+      {...register("סיסמא", {
+        required: "סיסמא היא שדה חובה.",
+        minLength: {
+          value: 8,
+          message: "הסיסמא חייבת להיות באורך של לפחות 8 תווים."
+        },
+        pattern: {
+          value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+          message: "הסיסמא חייבת לכלול לפחות אות גדולה, אות קטנה ומספר."
+        }
+      })}
+    />
+    {errors["סיסמא"] && <small className="p-error">{errors["סיסמא"].message}</small>}
+  </div>
       <div className="field">
         <label htmlFor="email">מייל</label>
-        <InputText id="email" type="email" {...register("מייל", { required: true })}  />
-        {errors.מייל && <small className="p-error">מייל הוא שדה חובה.</small>}
+        <InputText id="email" type="email" {...register("מייל", { required: "מייל הוא שדה חובה.",
+        pattern: {
+          value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+          message: "כתובת מייל אינה תקינה."
+        } })}  />
+        {errors.מייל && <small className="p-error">{errors["מייל"].message}</small>}
       </div>
       <div className="field">
         <label htmlFor="phone">מספר טלפון</label>
-        <InputText id="phone" type="tel" {...register("מספר טלפון", { required: true })}  />
-        {errors["מספר טלפון"] && <small className="p-error">מספר טלפון הוא שדה חובה.</small>}
+        <InputText id="phone" type="tel" {...register("מספר טלפון", { required: "מספר טלפון הוא שדה חובה.",
+        pattern: {
+          value: /^[0-9]{9}$/,
+          message: "מספר טלפון חייב להיות באורך של 9-10 ספרות."
+        }})}  />
+        {errors["מספר טלפון"] && <small className="p-error">{errors["מספר טלפון"].message}</small>}
       </div>
       <div className="field">
-        <label htmlFor="class">כיתה</label>
-        <Dropdown id="class" options={classes} {...register("כיתה", { required: true })}  />
-        {errors.כיתה && <small className="p-error">כיתה היא שדה חובה.</small>}
+      <label htmlFor="class">כיתה</label>
+  <Dropdown 
+    id="class" 
+    options={classes} 
+    {...register("כיתה", { required: true })}  
+    value={selectedClass} 
+    onChange={(e) => setSelectedClass(e.value)} // You need to manage the change event
+  />
+  {errors.כיתה && <small className="p-error">כיתה היא שדה חובה.</small>}
       </div>
       <div className="field">
         <label htmlFor="classNumber">מספר כיתה</label>
@@ -98,6 +116,7 @@ export default function StudentRegistration(props) {
         {errors["מספר כיתה"] && <small className="p-error">מספר כיתה הוא שדה חובה בין 1 ל-10.</small>}
       </div>
       <Button type="submit" label="שלח" />
+      {console.log(errors)}
     </form>
   );
 }

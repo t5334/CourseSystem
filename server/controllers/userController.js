@@ -17,7 +17,7 @@ const createNewUser = async (req, res) => {
 }
 
 const getAllUsers = async (req, res) => {
-    const users = await User.find().lean()
+    const users = await User.find({}, { password: 0, userName: 0 }).lean()
     if (!users?.length)
         return res.status(400).send("No users found")
     return res.json(users)

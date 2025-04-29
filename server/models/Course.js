@@ -18,14 +18,12 @@ const courseSchema = new mongoose.Schema({
         type: String
     },
     minClass: {
-        type: Number,
-        min: 1,
-        max: 8
+        type:  mongoose.Schema.Types.String,
+        enum: ["א", "ב", "ג", "ד", "ה", "ו", "ז", "ח"]
     },
     maxClass: {
-        type: Number,
-        min: 1,
-        max: 8
+        type:  mongoose.Schema.Types.String,
+        enum: ["א", "ב", "ג", "ד", "ה", "ו", "ז", "ח"]
     }
 
 

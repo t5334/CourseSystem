@@ -19,14 +19,20 @@ const createNewTeacher = async (req, res) => {
 }
 
 const getAllTeachers = async (req, res) => {
-    const teachers = await Teacher.find().populate("userId").lean()
+    const teachers = await Teacher.find().populate({
+        path: "userId",
+        select: "-password -__v -userName", 
+    }).lean()
     if (!teachers?.length)
         return res.status(404).send("dont found teachers")
     res.json(teachers)
 }
 const getTeacherById = async (req, res) => {
     const { id } = req.params
-    const teacher = await Teacher.findById(id).populate("userId").lean()
+    const teacher = await Teacher.findById(id).populate({
+        path: "userId",
+        select: "-password -__v -userName" 
+    }).lean()
     if (!teacher) {
         return res.status(404).send("This teacher not found")
     }

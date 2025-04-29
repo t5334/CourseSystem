@@ -13,15 +13,22 @@ const createNewStudent = async (req, res) => {
 }
 
 const getAllStudent = async (req, res) => {
-    const students = await Student.find().populate("userId").lean()
+    const students = await Student.find().populate({
+        path: "userId",
+        select: "-password -__v -userName", 
+    }).lean()
     if (!students?.length)
         return res.status(400).send("dont found students")
     res.json(students)
 }
 const getStudentById = async (req, res) => {
     const { id } = req.params
-    const student = await Student.findById(id).populate("userId").lean()
-    if (!student) {
+    const student = await Student.findById(id).populate({
+        path: "userId",
+        select: "-password -__v -userName", 
+    }).lean()
+
+if (!student) {
         return res.status(400).send("This student not found")
     }
     res.json(student)

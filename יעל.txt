@@ -1,0 +1,25 @@
+<Router>
+      {user && <div className="card">
+        <Menubar model={items} />
+      </div>}
+      <Routes>
+        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/" element={!user ? <Home /> : <Navigate to="/home" replace />} />
+        <Route path="/learning" element={<Learning />} />
+        <Route path="/practice" element={<Practice />} />
+        <Route path="/level" element={<Level />} />
+        <Route path="/studentLearning" element={<StudentLearning />} />
+        <Route path="/courses" element={<Courses />} />
+        {/* <Route path="/student" element={<StudentLearning />} /> */}
+        {user && (
+          <Route
+            path="/course"
+            element={user.role === 'Teacher' ? <TeacherCourse /> : <StudentCourse />} />)}
+        {user && (
+          <Route
+            path="/home"
+            element={user.role === 'Teacher' ? <TeacherHomePage /> : <StudentHomePage />}
+          />
+        )}
+      </Routes>
+    </Router>

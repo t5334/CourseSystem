@@ -13,14 +13,26 @@ if(!name){
 }
 
 const getAllCourse = async (req, res) => {
-    const courses = await Course.find().populate("teacherId").lean()
+    const courses = await Course.find().populate({
+        path: "teacherId",
+        populate:({
+            path: "userId",
+            select: "-password -__v -userName", 
+        })
+    }).lean()
     if (!courses?.length)
         return res.status(400).send("dont found courses")
     res.json(courses)
 }
 const getCourseById = async (req, res) => {
     const { id } = req.params
-    const course = await Course.findById(id).populate("teacherId").lean()
+    const course = await Course.findById(id).populate({
+        path: "teacherId",
+        populate:({
+            path: "userId",
+            select: "-password -__v -userName", 
+        })
+    }).lean()
     if (!course) {
         return res.status(400).send("This course no found")
     }

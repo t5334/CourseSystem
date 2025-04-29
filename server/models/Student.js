@@ -6,9 +6,8 @@ const studentSchema = new mongoose.Schema({
     },
 
     yearbook:{//שנתון
-        type:Number,
-        min:1,
-        max:8
+        type:String,
+        enum: ["א", "ב", "ג", "ד", "ה", "ו", "ז", "ח"]
     },
     numClass:{//מספר כיתה
         type:Number
