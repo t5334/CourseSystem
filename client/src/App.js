@@ -3,12 +3,17 @@ import Login from './Components/Login';
 import Courses from './Components/Courses';
 import Debtors from './Components/Debtors';
 import Lessons from './Components/Lesson';
+//import personal_details from'./Components/personal-details';
+
 import React from 'react';
 import {  Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { Menubar } from 'primereact/menubar';
 import 'primereact/resources/themes/lara-light-blue/theme.css'; // Theme
 import 'primereact/resources/primereact.min.css'; // Core CSS
 import 'primeicons/primeicons.css'; // Icons CSS
+import PersonalDetailsPage from './Components/personal-details';
+import CourseRegistration from './Components/CourseRegistration';
+import './App.css'; // Custom CSS
 
 // Mock user role (Replace with your actual authentication logic)
 const userRole = 'administrator'; // Can be 'student', 'teacher', or 'administrator'
@@ -67,6 +72,8 @@ const App = () => {
             <Route path="/courses" element={<Courses />} />
             <Route path="/duties" element={<Debtors />} />
             <Route path="/lessons" element={<Lessons />} />
+            <Route path='/personal-details' element={<PersonalDetailsPage/>} />
+            <Route path='/courseRegistration' element={<CourseRegistration/>} />
           </>
         ) : (
           <Route path="*" element={<Navigate to="/" />} />

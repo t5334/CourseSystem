@@ -7,6 +7,7 @@ import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import Course from "./Course";
+import { Toast } from "primereact/toast"; // For notifications
 export default function Courses() {
     const [data, setData] = useState([]);
     const [teachers, setTeachers] = useState([]);
@@ -18,15 +19,29 @@ export default function Courses() {
     const inputDomain = useRef(null);
     const inputMinClass = useRef(null);
     const inputMaxClass = useRef(null);
+    const toast = useRef(null); // For notifications
 
     const add = async () => {
-        if (!inputName.current.value) {
-            return alert("Name is required");
+        if (!inputName.current.value.trim()) {
+            toast.current.show({
+                severity: "error",
+                summary: "Validation Error",
+                detail: "Course name is required.",
+                life: 3000,
+            });
+            return;
         }
-
+    
         if (!selectedTeacher) {
-            return alert("Please select a teacher");
+            toast.current.show({
+                severity: "error",
+                summary: "Validation Error",
+                detail: "Please select a teacher.",
+                life: 3000,
+            });
+            return;
         }
+        
 
         const newCourse = {
             name: inputName.current.value,
@@ -87,7 +102,13 @@ export default function Courses() {
     return (
         <>
             <h1>חוגי בית יעקב</h1>
-            <Button icon="pi pi-plus" rounded aria-label="Filter" direction="up-left" style={{ right: -100, bottom: 50 }} tooltip="Add course" onClick={() => setVisibleCreate(true)} />
+            <Button tooltip="הוסף" rounded aria-label="Filter" icon="pi pi-plus" onClick={() => setVisibleCreate(true)}></Button>
+            {/* <Button style={{
+        position: 'fixed',
+        right: '20px',
+        bottom: '20px',
+        zIndex: 1000, // Ensure the button is above other elements
+    }} onClick={() => setVisibleCreate(true)} /> */}
             <Dialog header="Create new course" visible={visibleCreate} style={{ width: '50vw' }} onHide={() => setVisibleCreate(false)} footer={footerContent}>
                 <div className="field grid">
                     <label htmlFor="name" className="col-12 mb-2 md:col-2 md:mb-0">שם:</label>
@@ -140,7 +161,7 @@ export default function Courses() {
             </Dialog>
 
             <div class="grid">
-                {data.map((item) => { return <Course setCourses={setData} teachers={teachers} setTeachers course={item} role={"manager"} /> })}{/*להכניס תפקיד מהמשתמש*/}
+                {data.map((item) => { return <Course setCourses={setData} teachers={teachers} setTeachers={setTeachers} course={item} role={"student"} /> })}
                     </div>
         </>
     );

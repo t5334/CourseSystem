@@ -1,7 +1,7 @@
 import axios from "axios"
 import { Dropdown } from 'primereact/dropdown';
 import { useEffect, useState } from "react"
-const Lesson = () => {
+const Lessons = () => {
     const [datacourses, setdatacourses] = useState([])
     const [course, setCourse] = useState(null)
     const getcourses = async () => {
@@ -60,4 +60,4 @@ const url = 'http://localhost:7000/api/lesson/course/' + courseid
             </div>
         </div></>)
 }
-export default Lesson
+export default Lessons

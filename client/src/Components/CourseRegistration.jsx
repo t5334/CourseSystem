@@ -109,7 +109,18 @@ const RegistrationForm = () => {
             <form onSubmit={handleSubmit}>
                 <div className="p-field">
                     <label htmlFor="courseName">שם הקורס</label>
-                    <InputText id="courseName" value={courseName} onChange={(e) => setCourseName(e.target.value)} required />
+                    <Dropdown
+                    value={course}
+                    options={datacourses}
+                    onChange={(e) => {
+                        setCourse(e.value);
+                        console.log(e.value);
+                        console.log(course);
+                        //getlessons();
+                    }}
+                    optionLabel="name"
+                    placeholder="Select a course"
+                />
                 </div>
                 <div className="p-field">
                     <label htmlFor="studentName">שם התלמיד</label>
