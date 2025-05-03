@@ -65,7 +65,7 @@
 // };
 
 // export default CourseRegistration;
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import 'primereact/resources/themes/saga-blue/theme.css'; // Choose your theme
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -74,6 +74,8 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
 import './RegistrationForm.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const RegistrationForm = () => {
     const [courseName, setCourseName] = useState('');
@@ -81,6 +83,20 @@ const RegistrationForm = () => {
     const [amount, setAmount] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('');
     const [specialNotes, setSpecialNotes] = useState('');
+    const [datacourses, setdatacourses] = useState([])
+    const [course, setCourse] = useState(null)
+    const navigate=useNavigate();
+    const getcourses = async () => {
+        try {
+            const res = await axios.get('http://localhost:7000/api/course')
+            if (res.status === 200) {
+                console.log(res.data);
+                setdatacourses(res.data)
+            }
+        } catch (e) {
+            console.error(e)
+        }
+    }
 
     const paymentMethods = [
         { label: 'כרטיס אשראי', value: 'Credit Card' },
@@ -91,18 +107,34 @@ const RegistrationForm = () => {
 
     ];
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
+        const courseId=course._id
+        const payments={amount,way:paymentMethod,date:new Date().toLocaleDateString()}
         e.preventDefault();
         const registrationData = {
-            courseName,
-            studentName,
-            amount,
-            paymentMethod,
-            specialNotes
+            courseId,
+            studentName,//studentId
+            payments,
+            remark:specialNotes
         };
         console.log("Registration Data Submitted: ", registrationData);
-    };
+        try{
+// const res=await axios.post('http://localhost:7000/api/register')
+// if(res.status==201){
+//     alert("נרשמת בהצלחה")
+// }
+// else 
+// alert("היתה בעיה ברישום נסה שוב")
+navigate('/courses');
+        }
+        catch(e){
+            console.error(e)
+        }
 
+    };
+    useEffect(() => {
+        getcourses()
+    }, [])
     return (
         <div className="registration-form">
             <h2>טופס רישום לקורס</h2>
@@ -116,6 +148,7 @@ const RegistrationForm = () => {
                         setCourse(e.value);
                         console.log(e.value);
                         console.log(course);
+                        setCourseName(e.value)
                         //getlessons();
                     }}
                     optionLabel="name"

@@ -1,5 +1,6 @@
 import axios from "axios"
-import { useState } from "react"
+import { useState,useEffect } from "react"
+import Student from './student'
 
 const Debtors=()=>{
  const [data,setData]=useState([])
@@ -11,8 +12,22 @@ const Debtors=()=>{
             alert("No debts at all")
     }
  }
+ useEffect(() => {
+    loading()
+}, []);
 return(<>
 {/* להעבור ולהציג את כל התלמידות */}
+<div className="grid">
+                    {data.map((item) => (
+                        <Student
+                            // setCourses={setData}
+                            // teachers={teachers}
+                            // setTeachers={setTeachers}
+                            student={item}
+                            role={"student"}
+                        />
+                    ))}
+                </div>
 </>)
 }
 export default Debtors

@@ -25,18 +25,19 @@ export default function StudentRegistration(props) {
   const { register, handleSubmit, formState: { errors } ,getValues, setValue } = useForm();
 const [selectedClass,setSelectedClass]=useState("")
   const onSubmit = async(data) => {
-    try {
-      const res = await axios.post('http://localhost:7000/api/students', data);
-      if (res.status === 400) {
-        console.log(res.data);
-      }
-      if (res.status === 201) {
-        console.log(res.data);
-      }
-      props.closeDialog();
-    } catch (error) {
-      console.log(error);
-    }
+    console.log(data);
+    // try {
+    //   const res = await axios.post('http://localhost:7000/api/students', data);
+    //   if (res.status === 400) {
+    //     console.log(res.data);
+    //   }
+    //   if (res.status === 201) {
+    //     console.log(res.data);
+    //   }
+    //   props.closeDialog();
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const classes = [
@@ -58,8 +59,8 @@ const [selectedClass,setSelectedClass]=useState("")
         {errors.שם && <small className="p-error">שם הוא שדה חובה.</small>}
       </div>
       <div className="field">
-        <label htmlFor="username">שם משתמש</label>
-        <InputText id="username" {...register("שם משתמש", { required: true })} />
+        <label htmlFor="userName">שם משתמש</label>
+        <InputText id="userName" {...register("שם משתמש", { required: true })} />
         {errors["שם משתמש"] && <small className="p-error">שם משתמש הוא שדה חובה.</small>}
       </div>
       <div className="field">
@@ -112,7 +113,19 @@ const [selectedClass,setSelectedClass]=useState("")
       </div>
       <div className="field">
         <label htmlFor="classNumber">מספר כיתה</label>
-        <InputNumber id="classNumber" {...register("מספר כיתה", { required: true, min: 1, max: 10 })} />
+        <InputText id="classNumber" {...register("מספר כיתה", { required: true, min: 1, max: 10 })
+      } 
+      onChange={(e) => {
+        const valueAsNumber = Number(e.target.value); // Convert input value to number
+        // Check if the conversion is a valid number
+        if (!isNaN(valueAsNumber)) {
+            setValue("classNumber", valueAsNumber); // Set as number in form state
+        } else {
+            setValue("classNumber", ""); // Clear invalid input or set as needed
+        }
+        console.log("Current value:", valueAsNumber, "Type:", typeof valueAsNumber);
+    }} 
+      mode="decimal"/>
         {errors["מספר כיתה"] && <small className="p-error">מספר כיתה הוא שדה חובה בין 1 ל-10.</small>}
       </div>
       <Button type="submit" label="שלח" />

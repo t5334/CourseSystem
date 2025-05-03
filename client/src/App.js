@@ -3,6 +3,7 @@ import Login from './Components/Login';
 import Courses from './Components/Courses';
 import Debtors from './Components/Debtors';
 import Lessons from './Components/Lesson';
+import Students from './Components/Students';
 //import personal_details from'./Components/personal-details';
 
 import React from 'react';
@@ -74,6 +75,7 @@ const App = () => {
             <Route path="/lessons" element={<Lessons />} />
             <Route path='/personal-details' element={<PersonalDetailsPage/>} />
             <Route path='/courseRegistration' element={<CourseRegistration/>} />
+            <Route path='/students' element={<Students/>}/>
           </>
         ) : (
           <Route path="*" element={<Navigate to="/" />} />

@@ -7,11 +7,9 @@ import { InputText } from 'primereact/inputtext';
 import CourseRegistration from './CourseRegistration'; // Ensure you have a registration component for students
 import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 export default function Course(props) {
     const { course, role, teachers, setCourses } = props
-
     const [isDeleteDisabled, setIsDeleteDisabled] = useState(false);
     const [visibleUpdate, setVisibleUpdate] = useState(false);
     const [visibleDelete, setVisibleDelete] = useState(false);
