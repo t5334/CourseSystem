@@ -4,8 +4,11 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import axios from "axios";
+import { useDispatch, useSelector } from 'react-redux';
+
 
 const UpdateDetailsForm = ({ user, onSubmit }) => {
+  const {token} = useSelector((state) => state.token);
   const [formData, setFormData] = useState({
     username: user.username || "",
     name: user.name || "",
@@ -34,16 +37,16 @@ const UpdateDetailsForm = ({ user, onSubmit }) => {
       formData.role = user.role;
       formData.id = user.id;
       if(user.role === "מורה"){
-        // const updateTeacher = axios.put('http:localhost://7000/api/teachers',formData)
-        // if(updateTeacher.status === 200){
-        //   alert("פרטים עודכנו בהצלחה")
-        // }
+        const updateTeacher = axios.put('http:localhost://7000/api/teachers',formData)
+        if(updateTeacher.status === 200){
+          alert("פרטים עודכנו בהצלחה")
+        }
       }
       if(user.role === "תלמיד"){
-        // const updateStudent = axios.put('http:localhost://7000/api/students',formData)
-        // if(updateStudent.status === 200){
-        //   alert("פרטים עודכנו בהצלחה")
-        // }
+        const updateStudent = axios.put('http:localhost://7000/api/students',formData)
+        if(updateStudent.status === 200){
+          alert("פרטים עודכנו בהצלחה")
+        }
       }
     }
   };

@@ -1,18 +1,4 @@
-//  const onSubmit = async (data) => {
-//         try {
-//             const res = await axios.post('http://localhost:7000/api/auth/register', data);
-//             if (res.status === 400) {
-//                 console.log(res.data);
-//             }
-//             if (res.status === 201) {
-//                 console.log(res.data);
-//             }
-//             props.closeDialog();
-//         } catch (error) {
-//             console.log(error);
-//         }
- //   }
-// 
+
 import axios from "axios";
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -20,24 +6,27 @@ import { InputText } from 'primereact/inputtext';
 import { InputNumber } from 'primereact/inputnumber';
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
-
+import { useDispatch, useSelector } from 'react-redux';
 export default function StudentRegistration(props) {
   const { register, handleSubmit, formState: { errors } ,getValues, setValue } = useForm();
+  const {token} = useSelector((state) => state.token);
 const [selectedClass,setSelectedClass]=useState("")
   const onSubmit = async(data) => {
     console.log(data);
-    // try {
-    //   const res = await axios.post('http://localhost:7000/api/students', data);
-    //   if (res.status === 400) {
-    //     console.log(res.data);
-    //   }
-    //   if (res.status === 201) {
-    //     console.log(res.data);
-    //   }
-    //   props.closeDialog();
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const res = await axios.post('http://localhost:7000/api/students', data,{headers:{Authorization:`Bearer ${token}`}}
+
+      );
+      if (res.status === 400) {
+        console.log(res.data);
+      }
+      if (res.status === 201) {
+        console.log(res.data);
+      }
+      props.closeDialog();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const classes = [
@@ -55,12 +44,12 @@ const [selectedClass,setSelectedClass]=useState("")
     <form onSubmit={handleSubmit(onSubmit)} className="p-fluid">
       <div className="field">
         <label htmlFor="name">שם</label>
-        <InputText id="name" {...register("שם", { required: true })} />
+        <InputText id="name" {...register("name", { required: true })} />
         {errors.שם && <small className="p-error">שם הוא שדה חובה.</small>}
       </div>
       <div className="field">
         <label htmlFor="userName">שם משתמש</label>
-        <InputText id="userName" {...register("שם משתמש", { required: true })} />
+        <InputText id="userName" {...register("userName", { required: true })} />
         {errors["שם משתמש"] && <small className="p-error">שם משתמש הוא שדה חובה.</small>}
       </div>
       <div className="field">
@@ -68,7 +57,7 @@ const [selectedClass,setSelectedClass]=useState("")
     <InputText
       id="password"
       type="password"
-      {...register("סיסמא", {
+      {...register("password", {
         required: "סיסמא היא שדה חובה.",
         minLength: {
           value: 8,
@@ -84,7 +73,7 @@ const [selectedClass,setSelectedClass]=useState("")
   </div>
       <div className="field">
         <label htmlFor="email">מייל</label>
-        <InputText id="email" type="email" {...register("מייל", { required: "מייל הוא שדה חובה.",
+        <InputText id="email" type="email" {...register("email", { required: "מייל הוא שדה חובה.",
         pattern: {
           value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
           message: "כתובת מייל אינה תקינה."
@@ -93,19 +82,19 @@ const [selectedClass,setSelectedClass]=useState("")
       </div>
       <div className="field">
         <label htmlFor="phone">מספר טלפון</label>
-        <InputText id="phone" type="tel" {...register("מספר טלפון", { required: "מספר טלפון הוא שדה חובה.",
+        <InputText id="phone" type="tel" {...register("phone", { required: "מספר טלפון הוא שדה חובה.",
         pattern: {
           value: /^[0-9]{9}$/,
           message: "מספר טלפון חייב להיות באורך של 9-10 ספרות."
         }})}  />
-        {errors["מספר טלפון"] && <small className="p-error">{errors["מספר טלפון"].message}</small>}
+        {errors["phone"] && <small className="p-error">{errors["מספר טלפון"].message}</small>}
       </div>
       <div className="field">
       <label htmlFor="class">כיתה</label>
   <Dropdown 
     id="class" 
     options={classes} 
-    {...register("כיתה", { required: true })}  
+    {...register("class", { required: true })}  
     value={selectedClass} 
     onChange={(e) => setSelectedClass(e.value)} // You need to manage the change event
   />
@@ -113,7 +102,7 @@ const [selectedClass,setSelectedClass]=useState("")
       </div>
       <div className="field">
         <label htmlFor="classNumber">מספר כיתה</label>
-        <InputText id="classNumber" {...register("מספר כיתה", { required: true, min: 1, max: 10 })
+        <InputText id="classNumber" {...register("classNumber", { required: true, min: 1, max: 10 })
       } 
       onChange={(e) => {
         const valueAsNumber = Number(e.target.value); // Convert input value to number

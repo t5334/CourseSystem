@@ -1,55 +1,22 @@
-// import axios from "axios"
-// import { useEffect, useState } from "react"
-// import Student from "./student"
 
-// const Students=()=>{
-//     const [data,setdata]=useState([])
-//     const getStudents=async()=>{
-// try{
-//     console.log("get");
-// const res=axios.get('http://localhost:7000/api/students')
-// console.log((await res).data);
-// // if( res.status==200){
-//     setdata((await res).data)
-//     console.log(data);
-// // }
-// // else
-// // console.log("not loiding");
-// }
-// catch(e){
-
-// }
-//     }
-//     useEffect(() => {
-//         console.log("loding");
-//         getStudents()
-//     }, []);
-//     return(<>
-//     <div className="grid">
-//                     {data.map((item) => (
-//                         <Student
-//                             // setCourses={setData}
-//                             // teachers={teachers}
-//                             // setTeachers={setTeachers}
-//                             student={item}
-//                             role={"student"}
-//                         />
-//                     ))}
-//                 </div>
-//     </>)
-// }
-// export default Students
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+
 import axios from "axios";
-//import Student from "./";
+import Student from "./student";
 
 const Students = () => {
     const [data, setData] = useState([]);
+    const {token} = useSelector((state) => state.token);
+    const {user} = useSelector((state) => state.token);
 
     const getStudents = async () => {
         try {
             console.log("Fetching students...");
-            const res = await axios.get('http://localhost:7000/api/students');
+            console.log(token,user);
+            const res = await axios.get('http://localhost:7000/api/students',
+                {headers:{Authorization:`Bearer ${token}`}}
+            );
             console.log(res.data);
             setData(res.data);
         } catch (e) {

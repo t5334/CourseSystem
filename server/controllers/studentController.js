@@ -3,8 +3,8 @@ const userController = require("./userController")
 const mongoose=require("mongoose")
 
 const createNewStudent = async (req, res) => {
+
     const user = await userController.createNewUser(req, res)
-    console.log(user);
     const { numClass, yearbook } = req.body
     const student = await Student.create({ numClass, yearbook,userId:user._id})
     if (student)

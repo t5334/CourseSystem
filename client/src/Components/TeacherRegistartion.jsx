@@ -1,40 +1,10 @@
-// import axios from "axios";
 
-// //const res = await axios.post('http://localhost:7000/api/auth/register', data)
-
-// import React, { useState } from 'react';
-// import { useForm } from 'react-hook-form';
-
-// export default function App() {
-//   const [bank,setBanks]=useState([])
-//   const { register, handleSubmit, formState: { errors } } = useForm();
-//   const onSubmit = data => console.log(data);
-//   console.log(errors);
-
-//   return (
-//     <form onSubmit={handleSubmit(onSubmit)}>
-//       <input type="text" placeholder="שם" {...register} />
-//       <input type="text" placeholder="שם משתמש" {...register("שם משתמש", {required: true})} />
-//       <input type="password" placeholder="סיסמא" {...register("סיסמא", {required: true})} />
-//       <input type="email" placeholder="מייל" {...register("מייל", {required: true})} />
-//       <input type="tel" placeholder="מספר פלאפון" {...register("מספר פלאפון", {required: true})} />
-//       <select {...register("בנק")}>
-//         <option value="11 דיסקונט">11 דיסקונט</option>
-//       </select>
-//       <input type="number" placeholder="מספר חשבון" {...register} />
-//       <input type="text" placeholder="שם בעל חשבון" {...register} />
-
-//       <input type="submit" />
-//     </form>
-//   );
-// }
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { InputText } from 'primereact/inputtext';
-//import { InputNumber } from 'primereact/inputnumber';
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
-
+import { useDispatch, useSelector } from 'react-redux';
 const banks = [
   { name: '11 דיסקונט', code: '11' },
   { name: '12 הפועלים', code: '12' },
@@ -47,6 +17,7 @@ const banks = [
 export default function App() {
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm();
   const [selectedBank, setSelectedBank] = useState(null); // State for selected bank
+  const {token} = useSelector((state) => state.token);
     const onSubmit = (data) => {
       const formattedData = {
           ...data,

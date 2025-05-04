@@ -1,7 +1,9 @@
 const User = require("../models/User")
 const bcrypt= require('bcrypt')
 const createNewUser = async (req, res) => {
-    const { userName, password, name, phone, email } = req.body
+    const { userName, password, name, phone, email} = req.body
+    console.log(userName, password, name, phone, email);
+
     if (!userName || !password) {
         return res.status(400).send('userName and password are required')
     }

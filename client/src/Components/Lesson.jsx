@@ -1,12 +1,16 @@
 import axios from "axios"
 import { Dropdown } from 'primereact/dropdown';
 import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from 'react-redux';
+
+
 const Lessons = () => {
     const [datacourses, setdatacourses] = useState([])
     const [course, setCourse] = useState(null)
+    const { token } = useSelector((state) => state.token);
     const getcourses = async () => {
         try {
-            const res = await axios.get('http://localhost:7000/api/course')
+            const res = await axios.get('http://localhost:7000/api/course', { headers: { Authorization: `Bearer ${token}` } })
             if (res.status === 200) {
                 console.log(res.data);
                 setdatacourses(res.data)
@@ -15,13 +19,13 @@ const Lessons = () => {
             console.error(e)
         }
     }
-    
+
 
     const getlessons = async () => {
         const courseid = course._id
-const url = 'http://localhost:7000/api/lesson/course/' + courseid
+        const url = 'http://localhost:7000/api/lesson/course/' + courseid
         try {
-            const res = await axios.get(url)
+            const res = await axios.get(url, { headers: { Authorization: `Bearer ${token}` } })
             if (res.status === 200) {
                 console.log(res.data);
                 //setdatacourses(res.data)
@@ -36,11 +40,11 @@ const url = 'http://localhost:7000/api/lesson/course/' + courseid
     }, [])
     useEffect(() => {
         if (course) {
-          console.log('Value is ready:', course);
-          getlessons();
-          // Run your function logic here
+            console.log('Value is ready:', course);
+            getlessons();
+            // Run your function logic here
         }
-      }, [course]);
+    }, [course]);
     return (<>
         <div className="field grid">
             <label htmlFor="CoursesList" className="col-12 mb-2 md:col-2 md:mb-0">course:</label>

@@ -7,11 +7,21 @@ import StudentRegistration from './StudentRegistration';
 import { Dialog } from 'primereact/dialog';
 import axios from 'axios'
 import Courses from './Courses'
+import { useDispatch, useSelector } from 'react-redux';
+import { setToken, logOut } from '../redux/tokenSlice'
 import { useNavigate } from 'react-router-dom';
 import TeacherRegistration from './TeacherRegistartion'
+
+
+
+
+
+
 export default function LoginDemo() {
     const Inputusername = useRef(null)
     const Inputpassword = useRef(null)
+    const dispatch = useDispatch();
+    const {token} = useSelector((state) => state.token);
     const navigate = useNavigate();
     //למחוק את מה שיש במשתנה הגלובלי 
     const login = async () => {
@@ -21,10 +31,12 @@ export default function LoginDemo() {
             password: Inputpassword.current.value
         }
         try {
-            const res = await axios.post('http://localhost:7000/api/auth/login', user)
+            const res = await axios.post('http://localhost:7000/api/auth/login', user,{headers:{Authorization:`Bearer ${token}`}})
             console.log("login");
             console.log(res);
             //לתפוס את התוקן
+            dispatch(setToken({token:res.data.accessToken,user:res.data.user}))
+
             navigate('/courses');
         }
         catch (e) {

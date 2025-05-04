@@ -26,7 +26,7 @@ console.log(foundUser);
         phone:foundUser.phone
     }
     const accessToken=jwt.sign(userInfo,process.env.ACCESS_TOKEN_SECRET)
-    res.json({accessToken})
+    res.json({accessToken,user:userInfo})
 }
 
 const register = async (req, res) => {
