@@ -87,7 +87,10 @@ export default function Courses() {
                 maxClass: classRange[1], // Send numeric values for max class
             };
 
-            const res = await axios.get('http://localhost:7000/api/course', { params },{headers:{Authorization:`Bearer ${token}`}});
+            const res = await axios.get('http://localhost:7000/api/course', {
+                params, 
+                headers: { Authorization: `Bearer ${token}` } 
+            });
             if (res.status === 200) {
                 setData(res.data);
             }
