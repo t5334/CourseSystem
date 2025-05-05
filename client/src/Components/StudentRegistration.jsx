@@ -7,6 +7,7 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import { useDispatch, useSelector } from 'react-redux';
+import { Password } from 'primereact/password';
 export default function StudentRegistration(props) {
   const { register, handleSubmit, formState: { errors } ,getValues, setValue } = useForm();
   const {token} = useSelector((state) => state.token);
@@ -53,24 +54,26 @@ const [selectedClass,setSelectedClass]=useState("")
         {errors["שם משתמש"] && <small className="p-error">שם משתמש הוא שדה חובה.</small>}
       </div>
       <div className="field">
-    <label htmlFor="password">סיסמא</label>
-    <InputText
-      id="password"
-      type="password"
-      {...register("password", {
-        required: "סיסמא היא שדה חובה.",
-        minLength: {
-          value: 8,
-          message: "הסיסמא חייבת להיות באורך של לפחות 8 תווים."
-        },
-        pattern: {
-          value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
-          message: "הסיסמא חייבת לכלול לפחות אות גדולה, אות קטנה ומספר."
-        }
-      })}
-    />
-    {errors["סיסמא"] && <small className="p-error">{errors["סיסמא"].message}</small>}
-  </div>
+  <label htmlFor="password">סיסמא</label>
+  <Password
+    id="password"
+    type="password"
+    toggleMask
+    feedback={true} // Enables password strength feedback
+    {...register("password", {
+      required: "סיסמא היא שדה חובה.",
+      minLength: {
+        value: 8,
+        message: "הסיסמא חייבת להיות באורך של לפחות 8 תווים."
+      },
+      pattern: {
+        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+        message: "הסיסמא חייבת לכלול לפחות אות גדולה, אות קטנה ומספר."
+      }
+    })}
+  />
+  {errors["סיסמא"] && <small className="p-error">{errors["סיסמא"].message}</small>}
+</div>
       <div className="field">
         <label htmlFor="email">מייל</label>
         <InputText id="email" type="email" {...register("email", { required: "מייל הוא שדה חובה.",
