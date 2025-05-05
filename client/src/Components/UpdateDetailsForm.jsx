@@ -5,9 +5,10 @@ import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux';
-
+import { setToken, logOut } from '../redux/tokenSlice'
 
 const UpdateDetailsForm = ({ user, onSubmit }) => {
+  const dispatch = useDispatch();
   const {token} = useSelector((state) => state.token);
   const [formData, setFormData] = useState({
     username: user.username || "",
@@ -31,23 +32,28 @@ const UpdateDetailsForm = ({ user, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (onSubmit) {
+    //if (onSubmit) {
       onSubmit(formData);
-      console.log("Updated Data:", formData);
+      //console.log("Updated Data:", formData);
       formData.role = user.role;
-      formData.id = user.id;
-      if(user.role === "מורה"){
-        const updateTeacher = axios.put('http:localhost://7000/api/teachers',formData)
+      formData.id = user._id;
+      if(user.role === "Teacher"){
+        console.log(formData);
+        const updateTeacher = axios.put('http://localhost:7000/api/teachers',formData,{headers:{Authorization:`Bearer ${token}`}})
+        console.log(updateTeacher.data);
         if(updateTeacher.status === 200){
           alert("פרטים עודכנו בהצלחה")
         }
       }
-      if(user.role === "תלמיד"){
-        const updateStudent = axios.put('http:localhost://7000/api/students',formData)
+      if(user.role === "Student"){
+        console.log("formData "+formData);
+        const updateStudent = axios.put('http://localhost:7000/api/students',formData,{headers:{Authorization:`Bearer ${token}`}})
+        console.log(updateStudent.data);
         if(updateStudent.status === 200){
+          dispatch(setToken({token:token,user:updateStudent.data}))
           alert("פרטים עודכנו בהצלחה")
         }
-      }
+     // }
     }
   };
 
@@ -118,7 +124,7 @@ const UpdateDetailsForm = ({ user, onSubmit }) => {
         </div>
         <Divider />
         {/* Additional Fields for Teachers */}
-        {user.role === "מורה" && (
+        {user.role === "Teacher" && (
           <>
             <div className="p-field">
               <label htmlFor="bank" style={{ fontWeight: "bold", color: "#007bff" }}>
@@ -161,7 +167,7 @@ const UpdateDetailsForm = ({ user, onSubmit }) => {
           </>
         )}
         {/* Additional Fields for Students */}
-        {user.role === "תלמיד" && (
+        {user.role === "Student" && (
           <>
             <div className="p-field">
               <label htmlFor="class" style={{ fontWeight: "bold", color: "#007bff" }}>

@@ -1,0 +1,158 @@
+/* Main container */
+.courses-container {
+    display: flex;
+    height: 100vh; /* Full viewport height */
+    width: 100%; /* Full width of the page */
+    box-sizing: border-box;
+    direction: rtl; /* Makes the layout Right-to-Left (RTL), aligning the filters and content accordingly */
+}
+
+/* Filters section */
+.filters-section {
+    width: 20%;
+    height: calc(100vh - 60px); /* Subtract the navbar's height */
+    padding: 10px;
+    border-left: 1px solid #ddd;
+    box-sizing: border-box;
+    position: fixed;
+    right: 0;
+    top: 60px; /* Push it below the navbar */
+    background-color: #f9f9f9;
+    overflow-y: auto;
+    z-index: 10; /* Lower z-index than the navbar */
+}
+
+/* Courses grid */
+.courses-grid {
+    margin-right: 20%; /* Pushes the grid to the left of the filters */
+    width: 80%; /* Occupies the remaining 80% of the page width */
+    padding: 20px; /* Adds padding inside the grid */
+    box-sizing: border-box; /* Includes padding and border in width and height calculations */
+    margin-top: 60px; /* Pushes the content below the navbar */
+    overflow-y: visible; /* Ensures no unnecessary vertical scrolling within the grid */
+    min-height: calc(100vh - 60px); /* Ensures the grid takes up at least the remaining viewport height */
+    height: auto; /* Allows the grid to grow dynamically with the content */
+}
+
+/* Grid for cards */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 cards per row for large screens */
+    grid-gap: 16px; /* Space between the cards */
+    width: 100%;
+}
+
+/* Card container */
+.card-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 400px; /* Fixed height for all cards */
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+}
+
+/* Style for the Filter button */
+.filter-button {
+    background-color: blue; /* Background color for the Filter button */
+    color: white; /* Text and icon color */
+    border: none; /* No border */
+    width: 100%; /* Full width */
+    padding: 10px; /* Padding for better spacing */
+    font-size: 14px; /* Adjust font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    text-align: center; /* Center align the text */
+}
+
+.filter-button:hover {
+    background-color: #003d99; /* Darker blue on hover */
+}
+
+/* Style for the Restart button */
+.restart-button {
+    background-color: white; /* White background */
+    color: rgb(37, 99, 235); /* Blue text and icon */
+    border: 2px solid rgb(37, 99, 235); /* Border matching Filter button's background */
+    width: 100%; /* Full width */
+    padding: 10px; /* Padding for better spacing */
+    font-size: 14px; /* Adjust font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    text-align: center; /* Center align the text */
+    margin: 10px 0; /* Margin for spacing */
+}
+
+.restart-button:hover {
+    color: rgb(245, 245, 247);
+    background-color: rgb(141, 175, 245); /* Light blue background on hover */
+}
+
+/* Text for the price range (e.g., "From 0 to 2000") */
+.price-range-text {
+    font-size: 16px; /* Default font size for larger screens */
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Responsive Design */
+
+/* Medium screens (e.g., tablets) */
+@media (max-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 cards per row for medium screens */
+    }
+
+    .courses-container, .filters-section, .courses-grid, .grid, .card-container {
+        font-size: 14px; /* Slightly smaller font size for medium screens */
+    }
+
+    .filter-button, .restart-button {
+        font-size: 13px; /* Slightly smaller button font size */
+    }
+
+    .price-range-text {
+        font-size: 14px; /* Slightly smaller price range text */
+    }
+}
+
+/* Small screens (e.g., phones) */
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 cards per row for smaller screens */
+    }
+
+    .courses-container, .filters-section, .courses-grid, .grid, .card-container {
+        font-size: 12px; /* Smaller font size for small screens */
+    }
+
+    .filter-button, .restart-button {
+        font-size: 12px; /* Smaller button font size */
+        padding: 8px; /* Reduced padding for smaller buttons */
+    }
+
+    .price-range-text {
+        font-size: 12px; /* Smaller price range text */
+    }
+}
+
+/* Extra small screens (e.g., very small phones) */
+@media (max-width: 480px) {
+    .grid {
+        grid-template-columns: 1fr; /* 1 card per row for mobile screens */
+    }
+
+    .courses-container, .filters-section, .courses-grid, .grid, .card-container {
+        font-size: 10px; /* Even smaller font size for extra-small screens */
+    }
+
+    .filter-button, .restart-button {
+        font-size: 10px; /* Even smaller button font size */
+        padding: 6px; /* Reduced padding for smaller buttons */
+    }
+
+    .price-range-text {
+        font-size: 10px; /* Even smaller price range text */
+    }
+}

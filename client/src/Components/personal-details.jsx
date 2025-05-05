@@ -1,14 +1,47 @@
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import { Tag } from "primereact/tag";
 import UpdateDetailsForm from "./UpdateDetailsForm"; // Import the UpdateDetailsForm component
+import { useDispatch, useSelector } from 'react-redux';
+import axios from "axios";
 
-const PersonalDetailsCard = ({ user }) => {
+const PersonalDetailsCard = ({ }) => {
   // State to toggle the visibility of the update form
   const [showUpdateForm, setShowUpdateForm] = useState(false);
+  const { user } = useSelector((state) => state.token);
+  const [selectedClass, setSelectedClass] = useState("")
+  const Loading = () => {
+    try {
+      if (user.role === "Student") {
+        const res = axios.get(`http://localhost:7000/api/student/${user._id}`, { headers: { Authorization: `Bearer ${user.token}` } })
+        if(res.staus === 200){
+        user.class = res.data.class
+        user.classNumber = res.data.classNumber}
+        else{
+          alert("Unknown user")
+        }
+      }
+    }
+     catch (e) {
+      console.log(e);
+    }
+    if(user.role === "Teacher") {
+      const res = axios.get(`http://localhost:7000/api/teacher/${user._id}`, { headers: { Authorization: `Bearer ${user.token}` } })
+      if(res.status === 200){
+      user.bank = res.data.bank
+      user.accountNumber = res.data.accountNumber
+      user.accountHolder = res.data.accountHolder
+    }}
+    else{
+      alert("Unknown user")
+    }
 
+    useEffect(() => {
+      Loading();
+    }, []); 
+  }
   // Example user data (replace this with actual data from props or API)
   const userData = user || {
     username: "yossi123",
@@ -22,6 +55,7 @@ const PersonalDetailsCard = ({ user }) => {
     class: "יב 3", // Only for students
     classNumber: "12", // Only for students
   };
+  console.log(userData);
 
   return (
     <div
@@ -92,7 +126,7 @@ const PersonalDetailsCard = ({ user }) => {
             {/* Common Fields */}
             <div>
               <strong style={{ color: "#007bff" }}>שם משתמש:</strong>
-              <p style={{ margin: "0.2rem 0 0" }}>{userData.username}</p>
+              <p style={{ margin: "0.2rem 0 0" }}>{userData.userName}</p>
             </div>
             <Divider />
             <div>
@@ -106,7 +140,7 @@ const PersonalDetailsCard = ({ user }) => {
             </div>
 
             {/* Conditional Fields for Teachers */}
-            {userData.role === "מורה" && (
+            {userData.role === "Teacher" && (
               <>
                 <Divider />
                 <div>
@@ -127,7 +161,7 @@ const PersonalDetailsCard = ({ user }) => {
             )}
 
             {/* Conditional Fields for Students */}
-            {userData.role === "תלמיד" && (
+            {userData.role === "Student" && (
               <>
                 <Divider />
                 <div>
@@ -158,6 +192,7 @@ const PersonalDetailsCard = ({ user }) => {
             onSubmit={(updatedData) => {
               console.log("Updated Data:", updatedData);
               setShowUpdateForm(false); // Hide the form after submission
+              
             }}
           />
         </div>

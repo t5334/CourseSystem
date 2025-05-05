@@ -40,7 +40,8 @@ const getTeacherById = async (req, res) => {
 }
 
 const updateTeacher = async (req, res) => {
-    const { id, bank, acccount, name } = req.body
+    const {id, bank, acccount, name } = req.body
+    console.log(id);
     if (!id) {
         return res.status(400).send("The id is required")
     }

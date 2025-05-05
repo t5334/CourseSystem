@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 
-const RegistrationForm = () => {
+const RegistrationForm = (props) => {
     const [courseName, setCourseName] = useState('');
     const [studentName, setStudentName] = useState('');
     const [amount, setAmount] = useState('');
@@ -22,7 +22,8 @@ const RegistrationForm = () => {
     const [specialNotes, setSpecialNotes] = useState('');
     const [datacourses, setdatacourses] = useState([])
     const [course, setCourse] = useState(null)
-    const {token} = useSelector((state) => state.token);
+    const {token,user} = useSelector((state) => state.token);
+    props.course?course=props.course:null
     const navigate=useNavigate();
     const getcourses = async () => {
         try {

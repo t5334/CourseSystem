@@ -14,7 +14,7 @@ const courseSchema = new mongoose.Schema({
     price: {
         type: Number
     },
-    domain: {//תחום
+    category: {//תחום
         type: String
     },
     minClass: {
