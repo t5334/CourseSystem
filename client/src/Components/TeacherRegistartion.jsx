@@ -5,6 +5,7 @@ import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import { useDispatch, useSelector } from 'react-redux';
+import { Password } from 'primereact/password';
 const banks = [
   { name: '11 דיסקונט', code: '11' },
   { name: '12 הפועלים', code: '12' },
@@ -29,100 +30,132 @@ export default function App() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-       
-        <label htmlFor="name">שם</label>
-        <InputText id="name" {...register("שם", { required: true })} />
-        {errors.שם && <small className="p-error">שם הוא שדה חובה.</small>}
-      
-     
-        <label htmlFor="username">שם משתמש</label>
-        <InputText id="username" {...register("שם משתמש", { required: true })} />
-        {errors["שם משתמש"] && <small className="p-error">שם משתמש הוא שדה חובה.</small>}
-      
-     
-    <label htmlFor="password">סיסמא</label>
-    <InputText
-      id="password"
-      type="password"
-      {...register("סיסמא", {
-        required: "סיסמא היא שדה חובה.",
-        minLength: {
-          value: 8,
-          message: "הסיסמא חייבת להיות באורך של לפחות 8 תווים."
-        },
-        pattern: {
-          value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
-          message: "הסיסמא חייבת לכלול לפחות אות גדולה, אות קטנה ומספר."
-        }
-      })}
-    />
-    {errors["סיסמא"] && <small className="p-error">{errors["סיסמא"].message}</small>}
- 
+    <form
+    onSubmit={handleSubmit(onSubmit)}
+    style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%' }}
+  >
+    <div className="field" style={{ width: '100%' }}>
+      <label htmlFor="name">שם</label>
+      <InputText
+        id="name"
+        style={{ width: '100%' }}
+        {...register("שם", { required: true })}
+      />
+      {errors.שם && <small className="p-error">שם הוא שדה חובה.</small>}
+    </div>
 
-  
-        <label htmlFor="email">מייל</label>
-        <InputText id="email" type="email" {...register("מייל", { required: "מייל הוא שדה חובה.",
-        pattern: {
-          value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-          message: "כתובת מייל אינה תקינה."
-        } })}  />
-        {errors.מייל && <small className="p-error">{errors["מייל"].message}</small>}
-      
+    <div className="field" style={{ width: '100%' }}>
+      <label htmlFor="username">שם משתמש</label>
+      <InputText
+        id="username"
+        style={{ width: '100%' }}
+        {...register("שם משתמש", { required: true })}
+      />
+      {errors["שם משתמש"] && <small className="p-error">שם משתמש הוא שדה חובה.</small>}
+    </div>
 
-      
-        <label htmlFor="phone">מספר טלפון</label>
-        <InputText id="phone" type="tel" {...register("מספר טלפון", { required: "מספר טלפון הוא שדה חובה.",
-        pattern: {
-          value: /^[0-9]{9}$/,
-          message: "מספר טלפון חייב להיות באורך של 9-10 ספרות."
-        }})}  />
-        {errors["מספר טלפון"] && <small className="p-error">{errors["מספר טלפון"].message}</small>}
-      
+    <div className="field" style={{ width: '100%' }}>
+      <label htmlFor="password">סיסמא</label>
+      <Password
+        id="password"
+        style={{ width: '100%' }}
+        toggleMask
+        feedback={true}
+        {...register("password", {
+          required: "סיסמא היא שדה חובה.",
+          minLength: {
+            value: 8,
+            message: "הסיסמא חייבת להיות באורך של לפחות 8 תווים."
+          },
+          pattern: {
+            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+            message: "הסיסמא חייבת לכלול לפחות אות גדולה, אות קטנה ומספר."
+          }
+        })}
+      />
+      {errors["password"] && <small className="p-error">{errors["password"].message}</small>}
+    </div>
 
+    <div className="field" style={{ width: '100%' }}>
+      <label htmlFor="email">מייל</label>
+      <InputText
+        id="email"
+        style={{ width: '100%' }}
+        type="email"
+        {...register("מייל", {
+          required: "מייל הוא שדה חובה.",
+          pattern: {
+            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            message: "כתובת מייל אינה תקינה."
+          }
+        })}
+      />
+      {errors.מייל && <small className="p-error">{errors["מייל"].message}</small>}
+    </div>
+
+    <div className="field" style={{ width: '100%' }}>
+      <label htmlFor="phone">מספר טלפון</label>
+      <InputText
+        id="phone"
+        style={{ width: '100%' }}
+        type="tel"
+        {...register("מספר טלפון", {
+          required: "מספר טלפון הוא שדה חובה.",
+          pattern: {
+            value: /^[0-9]{9}$/,
+            message: "מספר טלפון חייב להיות באורך של 9-10 ספרות."
+          }
+        })}
+      />
+      {errors["מספר טלפון"] && <small className="p-error">{errors["מספר טלפון"].message}</small>}
+    </div>
+
+    <div className="field" style={{ width: '100%' }}>
       <label htmlFor="בנק">בנק</label>
       <Dropdown
         id="בנק"
+        style={{ width: '100%' }}
         options={banks}
         optionLabel="name"
         value={selectedBank}
         placeholder="בחר בנק"
-        {...register("בנק", )}
+        {...register("בנק")}
         onChange={(e) => {
           setValue("בנק", e.value);
-          setSelectedBank(e.value); // Check if e.value is correct
-          console.log("Selected bank changed:", e.value); // Log for debugging
+          setSelectedBank(e.value);
         }}
       />
-       {errors["בנק"] && <small className="p-error">{errors["בנק"].message}</small>}
+      {errors["בנק"] && <small className="p-error">{errors["בנק"].message}</small>}
+    </div>
 
+    <div className="field" style={{ width: '100%' }}>
       <label htmlFor="מספר חשבון">מספר חשבון</label>
       <InputText
         id="מספר חשבון"
-        {...register("מספר חשבון", )}
-        // onChange={(e) => {
-        //   // Convert to number
-        //   const valueAsNumber = Number(e.target.value); // Converts the string to a number
-        //   setValue("מספר חשבון", valueAsNumber);// Save as number in form state
-        // }}
+        style={{ width: '100%' }}
+        {...register("מספר חשבון")}
         onChange={(e) => {
-          const valueAsNumber = Number(e.target.value); // Convert input value to number
-          // Check if the conversion is a valid number
+          const valueAsNumber = Number(e.target.value);
           if (!isNaN(valueAsNumber)) {
-              setValue("מספר חשבון", valueAsNumber); // Set as number in form state
+            setValue("מספר חשבון", valueAsNumber);
           } else {
-              setValue("מספר חשבון", ""); // Clear invalid input or set as needed
+            setValue("מספר חשבון", "");
           }
-          console.log("Current value:", valueAsNumber, "Type:", typeof valueAsNumber);
-      }} 
-        mode="decimal"
+        }}
       />
-       {errors["מספר חשבון"] && <small className="p-error">{errors["מספר חשבון"].message}</small>}
+      {errors["מספר חשבון"] && <small className="p-error">{errors["מספר חשבון"].message}</small>}
+    </div>
 
+    <div className="field" style={{ width: '100%' }}>
       <label htmlFor="שם בעל חשבון">שם בעל חשבון</label>
-      <InputText id="שם בעל חשבון" {...register("שם בעל חשבון")} />
+      <InputText
+        id="שם בעל חשבון"
+        style={{ width: '100%' }}
+        {...register("שם בעל חשבון")}
+      />
+    </div>
 
-      <Button type="submit" label="שלח" />
-    </form>
+    <Button type="submit" label="שלח" style={{ width: '100%' }} />
+  </form>
   );
 }

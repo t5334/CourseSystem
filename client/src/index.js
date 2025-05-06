@@ -4,8 +4,8 @@ import './index.css';
 import App from './App';
 import { BrowserRouter  } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import 'primereact/resources/themes/lara-light-blue/theme.css';
-import 'primereact/resources/primereact.min.css';
+import 'primereact/resources/themes/saga-blue/theme.css';  // Theme
+import 'primereact/resources/primereact.min.css';          // Core CSS
 import 'primeicons/primeicons.css';
 
 
