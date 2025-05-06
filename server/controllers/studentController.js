@@ -35,7 +35,7 @@ if (!student) {
 }
 const getStudentByUserId = async (req, res) => {
     const { userId } = req.params; 
-
+console.log(userId);
     try {
         const student = await Student.findOne({ userId: userId }).populate({
             path: "userId",
@@ -65,8 +65,11 @@ const updateStudent = async (req, res) => {
     userController.updateUser(req, res)
     student.numClass = numClass
     student.yearbook = yearbook
-    const updatedStudent = await student.save()
-    return res.json(updatedStudent).status(200)
+    const updatedStudent = (await student.save())
+    const populatedStudent = await Student.findById(updatedStudent._id)
+    .populate('userId') 
+    .exec();
+    return res.json(populatedStudent).status(200)
 }
 
 const deleteStudent = async (req, res) => {

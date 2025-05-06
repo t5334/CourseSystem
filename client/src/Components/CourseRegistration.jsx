@@ -58,22 +58,38 @@ const RegistrationForm = (props) => {
         }
     };
     const handleSubmit = async (e) => {
+        e.preventDefault(); // Prevent default form submission behavior
+
         console.log("Submitting registration form with course:", course);
-        setLoading(true);
-        const courseId = course._id
-        try {
-            console.log('Course ID:', courseId);
-            const newStudent = await axios.get(`http://localhost:7000/api/students/user/${student._id}`, { headers: { Authorization: `Bearer ${token}` } })             //   console.log(newStudent);
 
-
-        } catch (error) {
-            console.error("Error fetching student data:", error);
+        if (!student || !student._id) {
+            console.error("Student ID is not defined");
+            alert("Student information is missing. Please try again.");
+            return;
         }
-        const payments = { amount, way: paymentMethod, date: new Date().toLocaleDateString() }
+
+        if (!token) {
+            console.error("Token is missing");
+            alert("Authorization token is missing. Please log in again.");
+            return;
+        }
+        let res
+        try {
+            res = await axios.get(`http://localhost:7000/api/students/user/${student._id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            console.log("Student data fetched successfully:", res.data);
+
+            // Perform any additional logic with the fetched data
+        } catch (error) {
+            console.error("Error fetching student data:", error.response ? error.response.data : error.message);
+            alert("Failed to fetch student data. Please try again.");
+        }
+        // const payments = { amount, way: paymentMethod, date: new Date().toLocaleDateString() }
         e.preventDefault();
         const registrationData = {
-            courseId,
-            studentId: student._id,
+            courseId: course._id,
+            studentId: res.data._id,
             //  payments,
             remarks: specialNotes
         };
@@ -86,7 +102,7 @@ const RegistrationForm = (props) => {
 
             if (response.status === 201) { // Assuming 201 is the success status
                 console.log("Registration successful:", response.data);
-             
+
                 navigate('/courses'); // Redirect after successful registration 
                 alert("הרשמה בוצעה בהצלחה");
             }
@@ -106,6 +122,9 @@ const RegistrationForm = (props) => {
     }, [user]);
     useEffect(() => {
         getcourses()
+        if (props.course) {
+            handleCourseChange(props.course)
+        }
     }, [])
     return (
         <div className="registration-form">

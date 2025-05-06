@@ -53,6 +53,8 @@ const Student = (props) => {
     const [attendance, setAttendance] = useState(false);
     const studentData = props.student;
     const { token } = useSelector((state) => state.token);
+    console.log("props")
+    console.log(props);
 
     const handleAttendanceChange = async (e) => {
         setAttendance(e.checked);
@@ -70,7 +72,7 @@ const Student = (props) => {
         }
     };
     const updatePay=()=>{
-        
+
     }
 
     return (
@@ -82,7 +84,7 @@ const Student = (props) => {
             </td>
             
             <td>
-                {studentData.course ? studentData.course.name : "No course assigned"}
+                {studentData.course ? studentData.course.courseId.name : "No course assigned"}
             </td>
             <td>
             {studentData.course ? <Button onClick={updatePay()}/> : null}

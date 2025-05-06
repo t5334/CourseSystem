@@ -7,19 +7,23 @@ import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux';
 import { setToken, logOut } from '../redux/tokenSlice'
 
-const UpdateDetailsForm = ({ user, onSubmit }) => {
+const UpdateDetailsForm = ({ info,onSubmit }) => {
   const dispatch = useDispatch();
-  const {token} = useSelector((state) => state.token);
+  const {token,user} = useSelector((state) => state.token);
   const [formData, setFormData] = useState({
+    id: info.studentId || info.teacherId || user._id || "",
     username: user.username || "",
     name: user.name || "",
     phone: user.phone || "",
     email: user.email || "",
-    bank: user.bank || "",
-    accountNumber: user.accountNumber || "",
-    accountHolder: user.accountHolder || "",
-    class: user.class || "",
-    classNumber: user.classNumber || "",
+    bank: info.bank || "",
+    accountNumber: info.accountNumber || "",
+    accountHolder: info.accountHolder || "",
+    yearbook: info.class || "",
+    numClass: info.classNumber || "",
+    role : user.role || "",
+    userId: user._id || "",
+    userName: user.userName || "",
   });
 
   const handleInputChange = (e) => {
@@ -30,13 +34,13 @@ const UpdateDetailsForm = ({ user, onSubmit }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
+    console.log("Submitting form with data:", formData);
+    // console.log(formData);
     e.preventDefault();
     //if (onSubmit) {
       onSubmit(formData);
       //console.log("Updated Data:", formData);
-      formData.role = user.role;
-      formData.id = user._id;
       if(user.role === "Teacher"){
         console.log(formData);
         const updateTeacher = axios.put('http://localhost:7000/api/teachers',formData,{headers:{Authorization:`Bearer ${token}`}})
@@ -47,10 +51,10 @@ const UpdateDetailsForm = ({ user, onSubmit }) => {
       }
       if(user.role === "Student"){
         console.log("formData "+formData);
-        const updateStudent = axios.put('http://localhost:7000/api/students',formData,{headers:{Authorization:`Bearer ${token}`}})
+        const updateStudent =await axios.put('http://localhost:7000/api/students',formData,{headers:{Authorization:`Bearer ${token}`}})
         console.log(updateStudent.data);
         if(updateStudent.status === 200){
-          dispatch(setToken({token:token,user:updateStudent.data}))
+          dispatch(setToken({token:token,user:updateStudent.data.userId}))
           alert("פרטים עודכנו בהצלחה")
         }
      // }
@@ -176,7 +180,7 @@ const UpdateDetailsForm = ({ user, onSubmit }) => {
               <InputText
                 id="class"
                 name="class"
-                value={formData.class}
+                value={formData.yearbook}
                 onChange={handleInputChange}
                 placeholder="הזן כיתה"
               />
@@ -189,7 +193,7 @@ const UpdateDetailsForm = ({ user, onSubmit }) => {
               <InputText
                 id="classNumber"
                 name="classNumber"
-                value={formData.classNumber}
+                value={formData.numClass}
                 onChange={handleInputChange}
                 placeholder="הזן מספר כיתה"
               />

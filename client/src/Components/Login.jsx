@@ -38,7 +38,6 @@ export default function LoginDemo() {
             console.log(res.data.user);
             console.log(res.data.accessToken);
             dispatch(setToken({token:res.data.accessToken,user:res.data.user}))
-
             navigate('/courses');
         }
         catch (e) {

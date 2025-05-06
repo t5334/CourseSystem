@@ -10,9 +10,10 @@ const verifyJWT = require("../midlleware/verifyJWT")
 router.use(verifyJWT)
 
 router.post("/",registerController.createNewRegister)
-router.get("/debt",registerController.getRegisterByDebt)
+router.use(teacherMW)
+router.get("/debt",managerMW,registerController.getRegisterByDebt)
 router.get("/course/:courseId",registerController.getRegisterByCourse)//teacherMW
-router.get("/student/:id",registerController.getRegisterByStudent)
+router.get("/student/:studentId",registerController.getRegisterByStudent)
 router.get("/phone/:id",registerController.getRegistersByPhone)
 router.get("/:id",registerController.getRegisterById)
 router.get("/",managerMW,registerController.getAllRegisters)

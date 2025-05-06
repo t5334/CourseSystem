@@ -70,7 +70,7 @@ import Student from "./student";
 
 const Students = () => {
     const [data, setData] = useState([]);
-    const { token } = useSelector((state) => state.token);
+    const { token,user } = useSelector((state) => state.token);
 
     const getStudents = async () => {
         try {
@@ -88,7 +88,8 @@ const Students = () => {
                             `http://localhost:7000/api/register/student/${student._id}`,
                             { headers: { Authorization: `Bearer ${token}` } }
                         );
-                        console.log("stu "+student._id+"cou " +coursesRes)
+                        console.log(coursesRes.data);
+                        console.log("stu "+student._id+"cou " +coursesRes.data)
                         return { ...student, courses: coursesRes.data }; // Attach courses to the student
                     } catch (error) {
                         console.error(`Error fetching courses for student ${student._id}:`, error);
@@ -135,7 +136,8 @@ const Students = () => {
                         <th style={{ border: "1px solid black", padding: "8px" }}>מספר טלפון</th>
                         <th style={{ border: "1px solid black", padding: "8px" }}>כיתה</th>
                         <th style={{ border: "1px solid black", padding: "8px" }}>קורס</th>
-                        <th style={{ border: "1px solid black", padding: "8px" }}>עדכון תשלום</th>
+                        {user.role==="Manager"&&
+                        <th style={{ border: "1px solid black", padding: "8px" }}>עדכון תשלום</th>}
                     </tr>
                 </thead>
                 <tbody>

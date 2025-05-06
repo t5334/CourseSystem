@@ -53,7 +53,7 @@ export default function App() {
       <InputText
         id="name"
         style={{ width: '100%' }}
-        {...register("שם", { required: true })}
+        {...register("name", { required: true })}
       />
       {errors.שם && <small className="p-error">שם הוא שדה חובה.</small>}
     </div>
@@ -63,7 +63,7 @@ export default function App() {
       <InputText
         id="username"
         style={{ width: '100%' }}
-        {...register("שם משתמש", { required: true })}
+        {...register("userName", { required: true })}
       />
       {errors["שם משתמש"] && <small className="p-error">שם משתמש הוא שדה חובה.</small>}
     </div>
@@ -97,7 +97,7 @@ export default function App() {
         id="email"
         style={{ width: '100%' }}
         type="email"
-        {...register("מייל", {
+        {...register("email", {
           required: "מייל הוא שדה חובה.",
           pattern: {
             value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -114,7 +114,7 @@ export default function App() {
         id="phone"
         style={{ width: '100%' }}
         type="tel"
-        {...register("מספר טלפון", {
+        {...register("phone", {
           required: "מספר טלפון הוא שדה חובה.",
           pattern: {
             value: /^[0-9]{9}$/,
@@ -126,29 +126,31 @@ export default function App() {
     </div>
 
     <div className="field" style={{ width: '100%' }}>
-      <label htmlFor="בנק">בנק</label>
-      <Dropdown
-        id="בנק"
-        style={{ width: '100%' }}
-        options={banks}
-        optionLabel="name"
-        value={selectedBank}
-        placeholder="בחר בנק"
-        {...register("בנק")}
-        onChange={(e) => {
-          setValue("בנק", e.value);
-          setSelectedBank(e.value);
-        }}
-      />
-      {errors["בנק"] && <small className="p-error">{errors["בנק"].message}</small>}
-    </div>
+  <label htmlFor="בנק">בנק</label>
+  <Dropdown
+    id="בנק"
+    style={{ width: '100%' }}
+    options={banks}
+    optionLabel="name" // Display the "name" in the dropdown
+    value={selectedBank} // The selected value object
+    placeholder="בחר בנק"
+    {...register("bank", {
+      setValueAs: (value) => parseInt(value, 10), // Convert the value to a number
+    })}
+    onChange={(e) => {
+      setValue("bank", parseInt(e.value.code, 10)); // Set the form value as a number
+      setSelectedBank(e.value); // Update the selected bank
+    }}
+  />
+  {errors["bank"] && <small className="p-error">{errors["bank"].message}</small>}
+</div>
 
     <div className="field" style={{ width: '100%' }}>
       <label htmlFor="מספר חשבון">מספר חשבון</label>
       <InputText
         id="מספר חשבון"
         style={{ width: '100%' }}
-        {...register("מספר חשבון")}
+        {...register("acccount")}
         onChange={(e) => {
           const valueAsNumber = Number(e.target.value);
           if (!isNaN(valueAsNumber)) {
@@ -166,7 +168,7 @@ export default function App() {
       <InputText
         id="שם בעל חשבון"
         style={{ width: '100%' }}
-        {...register("שם בעל חשבון")}
+        {...register("holder")}
       />
     </div>
 

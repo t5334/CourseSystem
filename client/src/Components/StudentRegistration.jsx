@@ -293,7 +293,7 @@ export default function StudentRegistration(props) {
         <Dropdown
           id="class"
           options={classes}
-          {...register("class", { required: true })}
+          {...register("yearbook", { required: true })}
           value={selectedClass}
           onChange={(e) => {
             setSelectedClass(e.value);
@@ -304,7 +304,7 @@ export default function StudentRegistration(props) {
       </div>
       <div className="field">
         <label htmlFor="classNumber">מספר כיתה</label>
-        <InputText id="classNumber" {...register("classNumber", { required: true })}
+        <InputText id="classNumber" {...register("numClass", { required: true })}
           onChange={(e) => {
             const valueAsNumber = Number(e.target.value);
             if (!isNaN(valueAsNumber)) {

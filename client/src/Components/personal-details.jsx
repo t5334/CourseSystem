@@ -1,61 +1,47 @@
-import React, { use, useEffect, useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import { Tag } from "primereact/tag";
-import UpdateDetailsForm from "./UpdateDetailsForm"; // Import the UpdateDetailsForm component
-import { useDispatch, useSelector } from 'react-redux';
+import UpdateDetailsForm from "./UpdateDetailsForm";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
-const PersonalDetailsCard = ({ }) => {
-  // State to toggle the visibility of the update form
+const PersonalDetailsCard = () => {
   const [showUpdateForm, setShowUpdateForm] = useState(false);
-  const { user } = useSelector((state) => state.token);
-  const [selectedClass, setSelectedClass] = useState("")
-  const Loading = () => {
-    try {
-      if (user.role === "Student") {
-        const res = axios.get(`http://localhost:7000/api/student/${user._id}`, { headers: { Authorization: `Bearer ${user.token}` } })
-        if(res.staus === 200){
-        user.class = res.data.class
-        user.classNumber = res.data.classNumber}
-        else{
-          alert("Unknown user")
-        }
-      }
-    }
-     catch (e) {
-      console.log(e);
-    }
-    if(user.role === "Teacher") {
-      const res = axios.get(`http://localhost:7000/api/teacher/${user._id}`, { headers: { Authorization: `Bearer ${user.token}` } })
-      if(res.status === 200){
-      user.bank = res.data.bank
-      user.accountNumber = res.data.accountNumber
-      user.accountHolder = res.data.accountHolder
-    }}
-    else{
-      alert("Unknown user")
-    }
+  const [classInfo, setClassInfo] = useState({ studentId:"",class: "", classNumber: "" }); // State for class and class number
+  const { user, token } = useSelector((state) => state.token);
 
-    useEffect(() => {
-      Loading();
-    }, []); 
-  }
-  // Example user data (replace this with actual data from props or API)
-  const userData = user || {
-    username: "yossi123",
-    name: "יוסי כהן",
-    phone: "050-1234567",
-    email: "yossi@example.com",
-    role: "תלמיד", // "מורה" (Teacher) or "תלמיד" (Student)
-    bank: "בנק הפועלים", // Only for teachers
-    accountNumber: "123456789", // Only for teachers
-    accountHolder: "יוסי כהן", // Only for teachers
-    class: "יב 3", // Only for students
-    classNumber: "12", // Only for students
+  const fetchStudentDetails = async () => {
+    try {
+      if (!user || !user._id) {
+        console.error("User ID is not defined");
+        return;
+      }
+
+      const res = await axios.get(`http://localhost:7000/api/students/user/${user._id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (res.status === 200) {
+        console.log("Student data fetched successfully:", res.data);
+        setClassInfo({
+          studentId: res.data._id,
+          class: res.data.yearbook || "",
+          classNumber: res.data.numClass || "",
+        });
+      } else {
+        console.error("Failed to fetch student data. Status:", res.status);
+      }
+    } catch (error) {
+      console.error("Error fetching student data:", error.response ? error.response.data : error.message);
+    }
   };
-  console.log(userData);
+
+  useEffect(() => {
+    fetchStudentDetails();
+  }, []); // Run once on component mount
 
   return (
     <div
@@ -63,26 +49,26 @@ const PersonalDetailsCard = ({ }) => {
       style={{
         height: "100vh",
         display: "flex",
-        flexDirection: "row", // Align items horizontally
-        alignItems: "flex-start", // Align items by the top
-        justifyContent: "center", // Center items horizontally in the container
-        gap: "2rem", // Add space between the two components
+        flexDirection: "row",
+        alignItems: "flex-start",
+        justifyContent: "center",
+        gap: "2rem",
         padding: "1rem",
-        background: "linear-gradient(to bottom, #f9f9f9, #e0f7fa)", // Background gradient
+        background: "linear-gradient(to bottom, #f9f9f9, #e0f7fa)",
       }}
     >
       {/* Personal Details Card */}
       <div
         className="p-d-flex p-flex-column p-ai-center p-jc-center"
         style={{
-          flex: "1", // Take up equal space with the form
-          maxWidth: "500px", // Optional: Limit the width
+          flex: "1",
+          maxWidth: "500px",
           textAlign: "right",
         }}
       >
-        <h2 style={{ color: "#007bff", marginBottom: "0.5rem" }}>{userData.name}</h2>
+        <h2 style={{ color: "#007bff", marginBottom: "0.5rem" }}>{user.name}</h2>
         <Tag
-          value={userData.role}
+          value={user.role}
           severity="info"
           style={{
             backgroundColor: "#ff6347",
@@ -109,7 +95,7 @@ const PersonalDetailsCard = ({ }) => {
                 icon="pi pi-pencil"
                 className="p-button-primary"
                 style={{ fontSize: "1rem", padding: "0.5rem 1.5rem" }}
-                onClick={() => setShowUpdateForm(true)} // Show the update form
+                onClick={() => setShowUpdateForm(true)}
               />
             </div>
           }
@@ -126,55 +112,35 @@ const PersonalDetailsCard = ({ }) => {
             {/* Common Fields */}
             <div>
               <strong style={{ color: "#007bff" }}>שם משתמש:</strong>
-              <p style={{ margin: "0.2rem 0 0" }}>{userData.userName}</p>
+              <p style={{ margin: "0.2rem 0 0" }}>{user.userName || ""}</p>
             </div>
             <Divider />
             <div>
               <strong style={{ color: "#007bff" }}>אימייל:</strong>
-              <p style={{ margin: "0.2rem 0 0" }}>{userData.email}</p>
+              <p style={{ margin: "0.2rem 0 0" }}>{user.email || ""}</p>
             </div>
             <Divider />
             <div>
               <strong style={{ color: "#007bff" }}>טלפון:</strong>
-              <p style={{ margin: "0.2rem 0 0" }}>{userData.phone}</p>
+              <p style={{ margin: "0.2rem 0 0" }}>{user.phone || ""}</p>
             </div>
 
-            {/* Conditional Fields for Teachers */}
-            {userData.role === "Teacher" && (
-              <>
-                <Divider />
-                <div>
-                  <strong style={{ color: "#007bff" }}>בנק:</strong>
-                  <p style={{ margin: "0.2rem 0 0" }}>{userData.bank}</p>
-                </div>
-                <Divider />
-                <div>
-                  <strong style={{ color: "#007bff" }}>מספר חשבון:</strong>
-                  <p style={{ margin: "0.2rem 0 0" }}>{userData.accountNumber}</p>
-                </div>
-                <Divider />
-                <div>
-                  <strong style={{ color: "#007bff" }}>שם בעל החשבון:</strong>
-                  <p style={{ margin: "0.2rem 0 0" }}>{userData.accountHolder}</p>
-                </div>
-              </>
-            )}
-
             {/* Conditional Fields for Students */}
-            {userData.role === "Student" && (
+            {user.role === "Student" && (
               <>
                 <Divider />
                 <div>
                   <strong style={{ color: "#007bff" }}>כיתה:</strong>
-                  <p style={{ margin: "0.2rem 0 0" }}>{userData.class}</p>
+                  <p style={{ margin: "0.2rem 0 0" }}>{classInfo.class || "N/A"}</p>
                 </div>
                 <Divider />
                 <div>
                   <strong style={{ color: "#007bff" }}>מספר כיתה:</strong>
-                  <p style={{ margin: "0.2rem 0 0" }}>{userData.classNumber}</p>
+                  <p style={{ margin: "0.2rem 0 0" }}>{classInfo.classNumber || "N/A"}</p>
                 </div>
               </>
             )}
+            
           </div>
         </Card>
       </div>
@@ -183,16 +149,16 @@ const PersonalDetailsCard = ({ }) => {
       {showUpdateForm && (
         <div
           style={{
-            flex: "1", // Take up equal space with the card
-            maxWidth: "500px", // Optional: Limit the width
+            flex: "1",
+            maxWidth: "500px",
           }}
         >
           <UpdateDetailsForm
-            user={userData}
+            user={user}
+            info={classInfo}
             onSubmit={(updatedData) => {
               console.log("Updated Data:", updatedData);
-              setShowUpdateForm(false); // Hide the form after submission
-              
+              setShowUpdateForm(false);
             }}
           />
         </div>
