@@ -6,14 +6,24 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 const Presence = () => {
-    const techerid=0
+    const { user } = useSelector((state) => state.token);
+    console.log("user in presence",user);
+    const techerid=user._id
     const [data, setData] = useState([])
     const [datacourses,setdatacourses]=useState([])
     const [course,setCourse]=useState(null)
     const {token} = useSelector((state) => state.token);
     const getcourses=async()=>{
         try {
-            const res = await axios.get('http://localhost:7000/api/course/techer/'+{techerid},{headers:{Authorization:`Bearer ${token}`}})
+            console.log("techerid  " +techerid);
+            const res = await axios.get(`http://localhost:7000/api/course/techer/${techerid}`,{headers:{Authorization:`Bearer ${token}`}})
+            console.log(res.status);
+            if(res.status=== 400){
+                alert(res.response.data.message)
+            }
+            if(res.status!== 200){
+                alert("No courses at all")
+            }
             if (res.status === 200) {
                 console.log(res.data);
                 setdatacourses(res.data)
@@ -22,10 +32,14 @@ const Presence = () => {
             console.error(e)
         } 
     }
+    if (course) {
+        console.log("course", course);
+    
     const courseid=course._id
 
     const getstudents = async () => {
         try {
+            console.log("courseid" +courseid);
             const res = await axios.get('http://localhost:7000/api/register/course/'+{courseid},{headers:{Authorization:`Bearer ${token}`}})
             if (res.status === 200) {
                 console.log(res.data);
@@ -46,11 +60,12 @@ const res=await axios.post('http://localhost:7000/api/lesson',lesson,{headers:{A
         catch(e){
 console.error(e)
         }
-    }
+    }}
     useEffect(()=>{
         getcourses() 
-        getstudents()
-        createLesson()
+        console.log("course",course);
+        //getstudents()
+        //createLesson()
     },[])
 return <>
 <div className="field grid">

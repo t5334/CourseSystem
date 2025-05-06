@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 export default function Course(props) {
-    const { course, role, teachers, setCourses } = props
+    const { course, teachers, setCourses } = props
     const [isDeleteDisabled, setIsDeleteDisabled] = useState(false);
     const [visibleUpdate, setVisibleUpdate] = useState(false);
     const [visibleDelete, setVisibleDelete] = useState(false);
@@ -18,11 +18,11 @@ export default function Course(props) {
     const [selectedTeacher, setSelectedTeacher] = useState(null);
     const [selectedMinClass, setSelectedMinClass] = useState(null);
     const [selectedMaxClass, setSelectedMaxClass] = useState(null);
-    const {token} = useSelector((state) => state.token);
+    const {token,user} = useSelector((state) => state.token);
     const inputName = useRef(null);
     const inputDescription = useRef(null);
     const inputPrice = useRef(null);
-    const inputDomain = useRef(null);
+    const inputCategory = useRef(null);
     const inputMinClass = useRef(null);
     const inputMaxClass = useRef(null);
     const inputTeacherName = useRef(null);
@@ -108,7 +108,7 @@ export default function Course(props) {
 
     const footer = (
         <>
-            {role === 'manager' && (
+            {user.role === 'Manager' && (
                 <>
                     <Button rounded severity="danger" icon="pi pi-trash" tooltip="מחק" tooltipOptions={{ position: 'bottom' }} onClick={() => setVisibleDelete(true)} />
                     <Button rounded severity="warning" icon="pi pi-pencil" tooltip="עדכן" tooltipOptions={{ position: 'bottom' }} onClick={() => setVisibleUpdate(true)} />
@@ -116,7 +116,7 @@ export default function Course(props) {
 
                 </>
             )}
-            {role === 'student' && (<>
+            {user.role === 'Student' && (<>
                 <Button rounded severity="warning" icon="pi pi-user-plus" tooltip='לרישום לקורס' tooltipOptions={{ position: 'bottom' }} onClick={() => handleRegister()} />
                 <Button rounded icon="pi pi-eye" tooltip="הצג פרטים" tooltipOptions={{ position: 'bottom' }} onClick={() => setVisibleDetails(true)} />
             </>
@@ -131,7 +131,7 @@ export default function Course(props) {
 
 
             <div className="text-center p-3 border-round-sm bg-primary font-bold">
-                <Card title={course.name} footer={footer} header={header} className="md:w-25rem">
+                <Card title={course.name} footer={footer} header={header} className="card-container">
                     <p>{course.description}</p>
                     <Dialog header={course.name} visible={visibleUpdate} style={{ width: '50vw' }} onHide={() => setVisibleUpdate(false)} footer={footerContent}>
                         <div className="field grid">
@@ -151,13 +151,7 @@ export default function Course(props) {
                             <br />
                             <label htmlFor="teacherName" className="col-12 mb-2 md:col-2 md:mb-0">שם המורה:</label>
                             <div className="col-12 md:col-10">
-                                {/* <Dropdown
-                                    value={selectedTeacher}
-                                    options={Array.isArray(teachers) ? teachers : []}
-                                    onChange={(e) => setSelectedTeacher(e.value)}
-                                    optionLabel="userId.name"
-                                    placeholder={props.course.teacherId ? props.course.teacherId.userId.name : 'Select a teacher'}
-                                /> */}
+                                
                                 <Dropdown
                                     value={selectedTeacher}
                                     options={Array.isArray(teachers) ? teachers : []}
@@ -197,14 +191,8 @@ export default function Course(props) {
                         </div>
 
 
-
-
-
-
-
-
                     </Dialog>
-                    {/* <Dialog header={course.name} visible={visibleDetails} style={{ width: '50vw' }} onHide={() => setVisibleDetails(false)}>
+                     {/* <Dialog header={course.name} visible={visibleDetails} style={{ width: '50vw' }} onHide={() => setVisibleDetails(false)}>
                         <div className="p-3">
                             <div className="p-grid">
                                 {props.course.description && (
@@ -234,10 +222,10 @@ export default function Course(props) {
                                     </div>
                                 )}
 
-                                {props.course.domain && (
+                                {props.course.category && (
                                     <div className="p-col-12 p-md-6 mb-3">
                                         <span className="font-bold">תחום:</span>
-                                        <span className="p-ml-2">{props.course.domain}</span>
+                                        <span className="p-ml-2">{props.course.category}</span>
                                     </div>
                                 )}
                                 {props.course.minClass && (
@@ -254,7 +242,7 @@ export default function Course(props) {
                                 )}
                             </div>
                         </div>
-                    </Dialog> */}
+                    </Dialog>  */}
                     <Dialog header={course.name} visible={visibleDetails} style={{ width: '50vw' }} onHide={() => setVisibleDetails(false)}>
                         <div className="p-3">
                             <div className="p-grid">
@@ -284,10 +272,10 @@ export default function Course(props) {
                                         <span className="p-ml-2">{props.course.price}</span>
                                     </div>
                                 )}
-                                {props.course?.domain && (
+                                {props.course?.category && (
                                     <div className="p-col-12 p-md-6 mb-3">
                                         <span className="font-bold">תחום:</span>
-                                        <span className="p-ml-2">{props.course.domain}</span>
+                                        <span className="p-ml-2">{props.course.category}</span>
                                     </div>
                                 )}
                                 {props.course?.minClass && (

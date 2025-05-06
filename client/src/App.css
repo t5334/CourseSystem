@@ -36,3 +36,27 @@
     transform: rotate(360deg);
   }
 }
+.navbar {
+  position: fixed; /* Keeps the navbar fixed at the top */
+  top: 0; /* Aligns it to the top of the page */
+  left: 0; /* Ensures it starts at the left edge */
+  width: 100%; /* Makes the navbar span the entire width of the viewport */
+  z-index: 9999; /* Ensures it stays on top of all other elements */
+  background-color: #ffffff; /* Background color */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a shadow for visual clarity */
+  padding: 10px 20px; /* Adds padding inside the navbar */
+  box-sizing: border-box; /* Ensures padding is included in the width calculation */
+}
+
+.page-content {
+  margin-top: 60px; /* Add margin to prevent content from overlapping with the navbar */
+}
+@media (max-width: 768px) {
+  .navbar {
+    padding: 5px 10px;
+  }
+
+  .page-content {
+    margin-top: 50px; /* Adjust for a smaller navbar height */
+  }
+}

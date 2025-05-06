@@ -35,6 +35,8 @@ export default function LoginDemo() {
             console.log("login");
             console.log(res);
             //לתפוס את התוקן
+            console.log(res.data.user);
+            console.log(res.data.accessToken);
             dispatch(setToken({token:res.data.accessToken,user:res.data.user}))
 
             navigate('/courses');
@@ -79,9 +81,9 @@ export default function LoginDemo() {
                     <Divider layout="vertical" className="hidden md:flex">
                         <b>או</b>
                     </Divider>
-                    <Divider layout="horizontal" className="flex md:hidden" align="center">
+                    {/* <Divider layout="horizontal" className="flex md:hidden" align="center">
                         <b>OR</b>
-                    </Divider>
+                    </Divider> */}
                 </div>
                 <div className="w-full md:w-5 flex align-items-center justify-content-center py-5">
                     <Button label="רישום תלמידה" icon="pi pi-user-plus" severity="success" className="w-12rem" onClick={openStudentDialog}></Button>

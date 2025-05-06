@@ -1,5 +1,5 @@
 
-import React, { useState ,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import 'primereact/resources/themes/saga-blue/theme.css'; // Choose your theme
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 
-const RegistrationForm = () => {
+const RegistrationForm = (props) => {
     const [courseName, setCourseName] = useState('');
     const [studentName, setStudentName] = useState('');
     const [amount, setAmount] = useState('');
@@ -22,11 +22,12 @@ const RegistrationForm = () => {
     const [specialNotes, setSpecialNotes] = useState('');
     const [datacourses, setdatacourses] = useState([])
     const [course, setCourse] = useState(null)
-    const {token} = useSelector((state) => state.token);
-    const navigate=useNavigate();
+    const { token, user } = useSelector((state) => state.token);
+    //props.course ? course = props.course : null
+    const navigate = useNavigate();
     const getcourses = async () => {
         try {
-            const res = await axios.get('http://localhost:7000/api/course', {headers:{Authorization:`Bearer ${token}`}})
+            const res = await axios.get('http://localhost:7000/api/course', { headers: { Authorization: `Bearer ${token}` } })
             if (res.status === 200) {
                 console.log(res.data);
                 setdatacourses(res.data)
@@ -45,21 +46,21 @@ const RegistrationForm = () => {
 
     ];
 
-    const handleSubmit = async(e) => {
-        const courseId=course._id
-        const payments={amount,way:paymentMethod,date:new Date().toLocaleDateString()}
+    const handleSubmit = async (e) => {
+        const courseId = course._id
+        const payments = { amount, way: paymentMethod, date: new Date().toLocaleDateString() }
         e.preventDefault();
         const registrationData = {
             courseId,
             studentName,//studentId
             payments,
-            remark:specialNotes
+            remark: specialNotes
         };
         console.log("Registration Data Submitted: ", registrationData);
-        try{
-navigate('/courses');
+        try {
+            navigate('/courses');
         }
-        catch(e){
+        catch (e) {
             console.error(e)
         }
 
@@ -74,36 +75,37 @@ navigate('/courses');
                 <div className="p-field">
                     <label htmlFor="courseName">שם הקורס</label>
                     <Dropdown
-                    value={course}
-                    options={datacourses}
-                    onChange={(e) => {
-                        setCourse(e.value);
-                        console.log(e.value);
-                        console.log(course);
-                        setCourseName(e.value)
-                        //getlessons();
-                    }}
-                    optionLabel="name"
-                    placeholder="Select a course"
-                />
+                        style={{ width: '100%' }}
+                        value={course}
+                        options={datacourses}
+                        onChange={(e) => {
+                            setCourse(e.value);
+                            console.log(e.value);
+                            console.log(course);
+                            setCourseName(e.value)
+                            //getlessons();
+                        }}
+                        optionLabel="name"
+                        placeholder="Select a course"
+                    />
                 </div>
                 <div className="p-field">
                     <label htmlFor="studentName">שם התלמיד</label>
-                    <InputText id="studentName" value={studentName} onChange={(e) => setStudentName(e.target.value)} required />
+                    <InputText style={{ width: '100%' }} id="studentName" value={studentName} onChange={(e) => setStudentName(e.target.value)} required />
                 </div>
                 <div className="p-field">
                     <label htmlFor="amount">סכום לתשלום</label>
-                    <InputText id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} required />
+                    <InputText style={{ width: '100%' }} id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} required />
                 </div>
                 <div className="p-field">
                     <label htmlFor="paymentMethod">שיטת תשלום</label>
-                    <Dropdown id="paymentMethod" value={paymentMethod} options={paymentMethods} onChange={(e) => setPaymentMethod(e.value)} placeholder="בחר שיטת תשלום" />
+                    <Dropdown style={{ width: '100%' }} id="paymentMethod" value={paymentMethod} options={paymentMethods} onChange={(e) => setPaymentMethod(e.value)} placeholder="בחר שיטת תשלום" />
                 </div>
                 <div className="p-field">
                     <label htmlFor="specialNotes">הערות מיוחדות</label>
-                    <InputTextarea id="specialNotes" value={specialNotes} onChange={(e) => setSpecialNotes(e.target.value)} rows={5} />
+                    <InputTextarea style={{ width: '100%' }} id="specialNotes" value={specialNotes} onChange={(e) => setSpecialNotes(e.target.value)} rows={5} />
                 </div>
-                <Button type="submit" label="רשום" icon="pi pi-check" />
+                <Button style={{ width: '100%' }} type="submit" label="רשום" icon="pi pi-check" />
             </form>
         </div>
     );

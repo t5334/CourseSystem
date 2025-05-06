@@ -4,12 +4,12 @@ const Teacher=require("../models/Teacher")
 const teacherController=require("../controllers/teacherController")
 const managerMW = require("../midlleware/managerMW")
 const verifyJWT = require("../midlleware/verifyJWT")
-
+const teacherMW = require("../midlleware/teacherMW")
 router.use(verifyJWT)
 router.post("/",managerMW,teacherController.createNewTeacher)
 router.get("/:id",teacherController.getTeacherById)
-router.get("/",managerMW,teacherController.getAllTeachers)//
-router.put("/",managerMW,teacherController.updateTeacher)
+router.get("/",teacherController.getAllTeachers)
+router.put("/",teacherMW,teacherController.updateTeacher)
 router.delete("/:id",managerMW,teacherController.deleteTeacher)
 
 module.exports=router
