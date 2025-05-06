@@ -64,6 +64,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Menubar } from 'primereact/menubar';
 import { logOut } from '../redux/tokenSlice'; // Adjust the import path based on your project structure
+import DefaultNavbar from './DefaultNavbar';
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -104,7 +105,7 @@ const Navbar = () => {
   // Handle cases where user or role is missing
   if (!user || !user.role) {
     console.warn("User is not authenticated or role is missing");
-    return null; // Don't render Navbar
+    return <DefaultNavbar/>; // Don't render Navbar
   }
 
   // Get allowed items based on the user's role

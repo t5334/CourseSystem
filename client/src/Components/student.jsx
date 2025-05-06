@@ -47,6 +47,7 @@ import React, { useState } from "react";
 import { Checkbox } from "primereact/checkbox";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { Button } from "primereact/button";
 
 const Student = (props) => {
     const [attendance, setAttendance] = useState(false);
@@ -68,6 +69,9 @@ const Student = (props) => {
             console.error(e);
         }
     };
+    const updatePay=()=>{
+        
+    }
 
     return (
         <tr>
@@ -76,8 +80,12 @@ const Student = (props) => {
             <td>
                 {studentData.yearbook} {studentData.numClass}
             </td>
+            
             <td>
                 {studentData.course ? studentData.course.name : "No course assigned"}
+            </td>
+            <td>
+            {studentData.course ? <Button onClick={updatePay()}/> : null}
             </td>
             {props.pre&&(<td>
                 <Checkbox

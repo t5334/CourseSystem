@@ -8,7 +8,7 @@ const createNewRegister = async (req, res) => {
     }
     const register = await Register.create({ courseId, studentId, remarks })
     if (register)
-        return res.json(register)
+        return res.status(201).json(register)
     return res.status(400).send('The registration was not created.')
 }
 

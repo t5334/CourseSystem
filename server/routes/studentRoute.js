@@ -6,6 +6,7 @@ const managerMW = require("../midlleware/managerMW")
 const verifyJWT = require("../midlleware/verifyJWT")
 
 router.post("/",studentController.createNewStudent)
+router.get("/user/:userId",verifyJWT,studentController.getStudentByUserId)
 router.get("/:id",verifyJWT,studentController.getStudentById)
 router.get("/",verifyJWT,managerMW,studentController.getAllStudent)
 router.put("/",verifyJWT,studentController.updateStudent)

@@ -15,6 +15,7 @@ const Debtors=()=>{
     
         if (res.status === 200) {
             setData(res.data);
+            console.log("data" + res);
             if (!res.data || res.data.length === 0) { // Check if the data is empty or null
                 alert("No debts at all");
             }
@@ -44,14 +45,12 @@ const Debtors=()=>{
 return(<>
 {/* להעבור ולהציג את כל התלמידות */}
 <div className="grid">
-    {data&& data.map((item) => (
+    {data?.length && data.map((item) => (
                     
                         <Student
-                            // setCourses={setData}
-                            // teachers={teachers}
-                            // setTeachers={setTeachers}
                             student={item}
                             role={"student"}
+                            
                         />
                     ))}
                 </div>

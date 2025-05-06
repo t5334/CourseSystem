@@ -33,6 +33,26 @@ if (!student) {
     }
     res.json(student)
 }
+const getStudentByUserId = async (req, res) => {
+    const { userId } = req.params; 
+
+    try {
+        const student = await Student.findOne({ userId: userId }).populate({
+            path: "userId",
+            select: "-password -__v -userName", 
+        }).lean();
+console.log("userId:   "+userId);
+console.log(student);
+        if (!student) {
+            return res.status(404).send("This student not found");
+        }
+
+        res.json(student);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server error");
+    }
+};
 const updateStudent = async (req, res) => {
     const { id, numClass, yearbook } = req.body
     if(!id){
@@ -62,4 +82,4 @@ const deleteStudent = async (req, res) => {
 
 }
 
-module.exports = { createNewStudent, getAllStudent, getStudentById, updateStudent, deleteStudent }
+module.exports = { getStudentByUserId,createNewStudent, getAllStudent, getStudentById, updateStudent, deleteStudent }

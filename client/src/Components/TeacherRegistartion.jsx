@@ -6,6 +6,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import { useDispatch, useSelector } from 'react-redux';
 import { Password } from 'primereact/password';
+import axios from 'axios';
 const banks = [
   { name: '11 דיסקונט', code: '11' },
   { name: '12 הפועלים', code: '12' },
@@ -18,13 +19,26 @@ const banks = [
 export default function App() {
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm();
   const [selectedBank, setSelectedBank] = useState(null); // State for selected bank
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const {token} = useSelector((state) => state.token);
-    const onSubmit = (data) => {
+    const onSubmit =  async(data) => {
       const formattedData = {
           ...data,
           "מספר חשבון": Number(data["מספר חשבון"]), // Force conversion to number
+          
       };
-      
+      console.log(data);
+      try {
+        const res = await axios.post('http://localhost:7000/api/teachers', data, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (res.status === 201) {
+          console.log(res.data);
+        }
+        //props.closeDialog();
+      } catch (error) {
+        console.error("Error during submission:", error);
+      }
        // Check if "מספר חשבון" is now a number
       // Proceed with submission logic...
   };
@@ -54,27 +68,28 @@ export default function App() {
       {errors["שם משתמש"] && <small className="p-error">שם משתמש הוא שדה חובה.</small>}
     </div>
 
-    <div className="field" style={{ width: '100%' }}>
-      <label htmlFor="password">סיסמא</label>
-      <Password
-        id="password"
-        style={{ width: '100%' }}
-        toggleMask
-        feedback={true}
-        {...register("password", {
-          required: "סיסמא היא שדה חובה.",
-          minLength: {
-            value: 8,
-            message: "הסיסמא חייבת להיות באורך של לפחות 8 תווים."
-          },
-          pattern: {
-            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
-            message: "הסיסמא חייבת לכלול לפחות אות גדולה, אות קטנה ומספר."
-          }
-        })}
-      />
-      {errors["password"] && <small className="p-error">{errors["password"].message}</small>}
-    </div>
+    <div className="field">
+                <label htmlFor="password">סיסמא</label>
+                <InputText
+                    id="password"
+                    type={passwordVisible ? "text" : "password"}
+                    {...register("password", {
+                        required: "סיסמא היא שדה חובה.",
+                        minLength: {
+                            value: 8,
+                            message: "הסיסמא חייבת להיות באורך של לפחות 8 תווים."
+                        },
+                        pattern: {
+                            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+                            message: "הסיסמא חייבת לכלול לפחות אות גדולה, אות קטנה ומספר."
+                        }
+                    })}
+                />
+                <button type="button" onClick={() => setPasswordVisible(!passwordVisible)}>
+                    {passwordVisible ? "Hide" : "Show"}
+                </button>
+                {errors.password && <small className="p-error">{errors.password.message}</small>}
+            </div>
 
     <div className="field" style={{ width: '100%' }}>
       <label htmlFor="email">מייל</label>
