@@ -12,32 +12,77 @@ import { setToken, logOut } from '../redux/tokenSlice'
 import { useNavigate } from 'react-router-dom';
 import TeacherRegistration from './TeacherRegistartion'
 
-
-
-
-
-
 export default function LoginDemo() {
     const Inputusername = useRef(null)
     const Inputpassword = useRef(null)
     const dispatch = useDispatch();
-    const {token} = useSelector((state) => state.token);
+    const { token } = useSelector((state) => state.token);
     const navigate = useNavigate();
+    const [userData,setUserData]=useState({})
     //למחוק את מה שיש במשתנה הגלובלי 
-    const login = async () => {
+    const Login = async () => {
 
         const user = {
             userName: Inputusername.current.value,
             password: Inputpassword.current.value
         }
+       
         try {
-            const res = await axios.post('http://localhost:7000/api/auth/login', user,{headers:{Authorization:`Bearer ${token}`}})
+            const res = await axios.post('http://localhost:7000/api/auth/login', user, { headers: { Authorization: `Bearer ${token}` } })
+            switch (res.data.user.role) {
+                case "Student":
+                    console.log("student");
+                    try {
+                        if (!res.data.user || !res.data.user._id) {
+                            console.error("User ID is not defined");
+                            return;
+                        }
+
+                        const res = await axios.get(`http://localhost:7000/api/students/user/${res.data.user._id}`, {
+                            headers: { Authorization: `Bearer ${token}` },
+                        });
+
+                        if (res.status === 200) {
+                            console.log("Student data fetched successfully:", res.data);
+                            setUserData ( { ...userData, studentId: res.data._id, class: res.data.yearbook, classNumber: res.data.numClass })
+                        } else {
+                            console.error("Failed to fetch student data. Status:", res.status);
+                        }
+                    } catch (error) {
+                        console.error("Error fetching student data:", error.response ? error.response.data : error.message);
+                    }
+                    break;
+                case "Teacher":
+                    console.log("teacher");
+                    try {
+                        if (!res.data.user || !res.data.user._id) {
+                            console.error("User ID is not defined");
+                            return;
+                        }
+
+                        const res = await axios.get(`http://localhost:7000/api/teacher/user/${res.data.user._id}`, {
+                            headers: { Authorization: `Bearer ${token}` },
+                        });
+
+                        if (res.status === 200) {
+                            console.log("Teacher data fetched successfully:", res.data);
+                            setUserData ( { ...userData, teacherId: res.data._id , bank: res.data.bank, accountNumber: res.data.accountNumber, accountHolder: res.data.accountHolder })
+                        } else {
+                            console.error("Failed to fetch teacher data. Status:", res.status);
+                        }
+                    } catch (error) {
+                        console.error("Error fetching teacher data:", error.response ? error.response.data : error.message);
+                    }
+                    break;
+                default:
+                    console.log("admin");
+            }
             console.log("login");
             console.log(res);
-            //לתפוס את התוקן
             console.log(res.data.user);
             console.log(res.data.accessToken);
-            dispatch(setToken({token:res.data.accessToken,user:res.data.user}))
+            
+            dispatch(setToken({ token: res.data.accessToken, user: userData }))
             navigate('/courses');
         }
         catch (e) {
@@ -74,7 +119,7 @@ export default function LoginDemo() {
                         <label className="w-6rem">סיסמא:</label>
                         <InputText ref={Inputpassword} id="password" type="password" className="w-12rem" required />
                     </div>
-                    <Button label="כניסה" icon="pi pi-user" className="w-10rem mx-auto" onClick={login}></Button>
+                    <Button label="כניסה" icon="pi pi-user" className="w-10rem mx-auto" onClick={Login}></Button>
                 </div>
                 <div className="w-full md:w-2">
                     <Divider layout="vertical" className="hidden md:flex">
@@ -89,7 +134,7 @@ export default function LoginDemo() {
                     <div className="w-full d-flex justify-content-center mt-2">
                         <Button
                             label="רישום למורה"
-                            onClick={openTeacherDialog}  
+                            onClick={openTeacherDialog}
                             className="w-10rem"
                             icon="pi pi-user-plus"
                         //severity="success"

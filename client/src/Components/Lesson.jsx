@@ -71,7 +71,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
-//import { Table } from 'primereact/table';
+import { DataTable } from 'primereact/datatable'; // Import DataTable
+import { Column } from 'primereact/column'; // Import Column
 
 const Lessons = () => {
     const [datacourses, setdatacourses] = useState([]);
@@ -141,36 +142,22 @@ const Lessons = () => {
             </div>
 
             <h2>Lessons List</h2>
-            <Table value={lessonsData} tableStyle={{ width: '100%' }}>
-                <thead>
-                    <tr>
-                        <th style={{ border: "1px solid black", padding: "8px" }}>Lesson Name</th>
-                        <th style={{ border: "1px solid black", padding: "8px" }}>Date Paid</th>
-                        <th style={{ border: "1px solid black", padding: "8px" }}>Payment Update</th>
-                        <th style={{ border: "1px solid black", padding: "8px" }}>Students List</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {lessonsData.map((lesson) => (
-                        <tr key={lesson._id}>
-                            <td>{lesson.name}</td>
-                            <td>{lesson.datePaid || "Not Paid"}</td>
-                            <td>
-                                <Button 
-                                    label="Update Payment" 
-                                    onClick={() => {/* Implement payment update logic here */}} 
-                                />
-                            </td>
-                            <td>
-                                <Button 
-                                    label="View Students" 
-                                    onClick={() => openDialog(lesson.students)} 
-                                />
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
+            <DataTable value={lessonsData} tableStyle={{ width: '100%' }}>
+                <Column field="name" header="Lesson Name" />
+                <Column field="datePaid" header="Date Paid" body={(rowData) => rowData.datePaid || "Not Paid"} />
+                <Column header="Payment Update" body={() => (
+                    <Button 
+                        label="Update Payment" 
+                        onClick={() => {/* Implement payment update logic here */}} 
+                    />
+                )} />
+                <Column header="Students List" body={(rowData) => (
+                    <Button 
+                        label="View Students" 
+                        onClick={() => openDialog(rowData.students)} 
+                    />
+                )} />
+            </DataTable>
 
             <Dialog header="Students List" visible={visible} onHide={closeDialog}>
                 <div>

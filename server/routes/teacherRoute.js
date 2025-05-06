@@ -8,6 +8,7 @@ const teacherMW = require("../midlleware/teacherMW")
 
 router.post("/",teacherController.createNewTeacher)
 router.use(verifyJWT)
+router.get("/user/:userId",teacherController.getTeacherByUserId)
 router.get("/:id",teacherController.getTeacherById)
 router.get("/",teacherController.getAllTeachers)
 router.put("/",teacherMW,teacherController.updateTeacher)

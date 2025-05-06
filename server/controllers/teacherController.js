@@ -38,6 +38,24 @@ const getTeacherById = async (req, res) => {
     }
     res.json(teacher)
 }
+const getTeacherByUserId = async (req, res) => {
+    const { userId } = req.params; 
+    try {
+        const teacher = await Teacher.findOne({ userId: userId }).populate({
+            path: "userId",
+            select: "-password -__v -userName", 
+        }).lean();
+
+        if (!teacher) {
+            return res.status(404).send("This teacher not found");
+        }
+
+        res.json(teacher);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server error");
+    }
+}
 
 const updateTeacher = async (req, res) => {
     const {id, bank, acccount, name } = req.body
@@ -68,4 +86,4 @@ const deleteTeacher = async (req, res) => {
 
 }
 
-module.exports = { createNewTeacher, getAllTeachers, getTeacherById, updateTeacher, deleteTeacher }
+module.exports = { createNewTeacher, getAllTeachers, getTeacherById, updateTeacher, deleteTeacher,getTeacherByUserId }
