@@ -22,73 +22,92 @@ export default function LoginDemo() {
     //למחוק את מה שיש במשתנה הגלובלי 
     const Login = async () => {
 
-        const user = {
-            userName: Inputusername.current.value,
-            password: Inputpassword.current.value
-        }
+    //     const user = {
+    //         userName: Inputusername.current.value,
+    //         password: Inputpassword.current.value
+    //     }
        
-        try {
-            const res = await axios.post('http://localhost:7000/api/auth/login', user, { headers: { Authorization: `Bearer ${token}` } })
-            switch (res.data.user.role) {
-                case "Student":
-                    console.log("student");
-                    try {
-                        if (!res.data.user || !res.data.user._id) {
-                            console.error("User ID is not defined");
-                            return;
-                        }
+    //     try {
+    //         const res = await axios.post('http://localhost:7000/api/auth/login', user, { headers: { Authorization: `Bearer ${token}` } })
+    //         switch (res.data.user.role) {
+    //             case "Student":
+    //                 console.log("student");
+    //                 try {
+    //                     if (!res.data.user || !res.data.user._id) {
+    //                         console.error("User ID is not defined");
+    //                         return;
+    //                     }
 
-                        const res = await axios.get(`http://localhost:7000/api/students/user/${res.data.user._id}`, {
-                            headers: { Authorization: `Bearer ${token}` },
-                        });
+    //                     const res = await axios.get(`http://localhost:7000/api/students/user/${res.data.user._id}`, {
+    //                         headers: { Authorization: `Bearer ${token}` },
+    //                     });
 
-                        if (res.status === 200) {
-                            console.log("Student data fetched successfully:", res.data);
-                            setUserData ( { ...userData, studentId: res.data._id, class: res.data.yearbook, classNumber: res.data.numClass })
-                        } else {
-                            console.error("Failed to fetch student data. Status:", res.status);
-                        }
-                    } catch (error) {
-                        console.error("Error fetching student data:", error.response ? error.response.data : error.message);
-                    }
-                    break;
-                case "Teacher":
-                    console.log("teacher");
-                    try {
-                        if (!res.data.user || !res.data.user._id) {
-                            console.error("User ID is not defined");
-                            return;
-                        }
+    //                     if (res.status === 200) {
+    //                         console.log("Student data fetched successfully:", res.data);
+    //                         setUserData ( { ...userData, studentId: res.data._id, class: res.data.yearbook, classNumber: res.data.numClass })
+    //                     } else {
+    //                         console.error("Failed to fetch student data. Status:", res.status);
+    //                     }
+    //                 } catch (error) {
+    //                     console.error("Error fetching student data:", error.response ? error.response.data : error.message);
+    //                 }
+    //                 break;
+    //             case "Teacher":
+    //                 console.log("teacher");
+    //                 try {
+    //                     if (!res.data.user || !res.data.user._id) {
+    //                         console.error("User ID is not defined");
+    //                         return;
+    //                     }
 
-                        const res = await axios.get(`http://localhost:7000/api/teacher/user/${res.data.user._id}`, {
-                            headers: { Authorization: `Bearer ${token}` },
-                        });
+    //                     const res = await axios.get(`http://localhost:7000/api/teacher/user/${res.data.user._id}`, {
+    //                         headers: { Authorization: `Bearer ${token}` },
+    //                     });
 
-                        if (res.status === 200) {
-                            console.log("Teacher data fetched successfully:", res.data);
-                            setUserData ( { ...userData, teacherId: res.data._id , bank: res.data.bank, accountNumber: res.data.accountNumber, accountHolder: res.data.accountHolder })
-                        } else {
-                            console.error("Failed to fetch teacher data. Status:", res.status);
-                        }
-                    } catch (error) {
-                        console.error("Error fetching teacher data:", error.response ? error.response.data : error.message);
-                    }
-                    break;
-                default:
-                    console.log("admin");
-            }
-            console.log("login");
-            console.log(res);
-            console.log(res.data.user);
-            console.log(res.data.accessToken);
+    //                     if (res.status === 200) {
+    //                         console.log("Teacher data fetched successfully:", res.data);
+    //                         setUserData ( { ...userData, teacherId: res.data._id , bank: res.data.bank, accountNumber: res.data.accountNumber, accountHolder: res.data.accountHolder })
+    //                     } else {
+    //                         console.error("Failed to fetch teacher data. Status:", res.status);
+    //                     }
+    //                 } catch (error) {
+    //                     console.error("Error fetching teacher data:", error.response ? error.response.data : error.message);
+    //                 }
+    //                 break;
+    //             default:
+    //                 console.log("admin");
+    //         }
+    //         console.log("login");
+    //         console.log(res);
+    //         console.log(res.data.user);
+    //         console.log(res.data.accessToken);
             
-            dispatch(setToken({ token: res.data.accessToken, user: userData }))
-            navigate('/courses');
-        }
-        catch (e) {
-            console.log(e);
-        }
+    //         dispatch(setToken({ token: res.data.accessToken, user: user }))
+    //         navigate('/courses');
+    //     }
+    //     catch (e) {
+    //         console.log(e);
+    //     }
+    // }
+    const user = {
+        userName: Inputusername.current.value,
+        password: Inputpassword.current.value
     }
+    try {
+        const res = await axios.post('http://localhost:7000/api/auth/login', user,{headers:{Authorization:`Bearer ${token}`}})
+        console.log("login");
+        console.log(res);
+        //לתפוס את התוקן
+        console.log(res.data.user);
+        console.log(res.data.accessToken);
+        dispatch(setToken({token:res.data.accessToken,user:res.data.user}))
+
+        navigate('/courses');
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
     const [showStudentRegister, setShowStudentRegister] = useState(false);
     const [showTeacherRegister, setShowTeacherRegister] = useState(false);
 

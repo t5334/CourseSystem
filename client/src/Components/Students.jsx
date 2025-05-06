@@ -78,7 +78,8 @@ const Students = () => {
             const res = await axios.get("http://localhost:7000/api/students", {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            const students = res.data;
+            const students =  await res.data;
+            console.log(students);
 
             // Fetch courses for each student
             const studentsWithCourses = await Promise.all(
@@ -142,7 +143,7 @@ const Students = () => {
                 </thead>
                 <tbody>
                     {transformedData.map((student, index) => (
-                        <Student key={`${student._id}-${index}`} student={student} />
+                        <Student key={`${student._id}-${index}`} student={student}  up={"1"}/>
                     ))}
                 </tbody>
             </table>

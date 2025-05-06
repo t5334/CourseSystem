@@ -46,7 +46,6 @@ return(<>
 {/* להעבור ולהציג את כל התלמידות */}
 <div className="grid">
     {data?.length && data.map((item) => (
-                    
                         <Student
                             student={item}
                             role={"student"}
