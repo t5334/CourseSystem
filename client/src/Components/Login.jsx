@@ -29,6 +29,7 @@ export default function LoginDemo() {
        
         try {
             const res = await axios.post('http://localhost:7000/api/auth/login', user, { headers: { Authorization: `Bearer ${token}` } })
+            setUserData(res.data.user)
             switch (res.data.user.role) {
                 case "Student":
                     console.log("student");
