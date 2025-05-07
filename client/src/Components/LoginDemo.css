@@ -1,0 +1,172 @@
+/* Main Container Styling */
+/* General Button Styling for All Buttons Inside #login */
+#login .p-button {
+    width: 18rem; /* Uniform width for all buttons */
+    height: 45px; /* Consistent height */
+    font-size: 16px; /* Readable font size */
+    font-weight: bold; /* Bold text for emphasis */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    text-align: center; /* Center the text inside the button */
+    margin: 1rem auto; /* Spacing between buttons */
+    display: block; /* Ensure buttons are block elements */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
+}
+
+/* Styling the First Button (Login Button) */
+#login .p-button:nth-child(1) {
+    background-color: #6a11cb; /* Purple background for Login */
+    color: #fff; /* White text */
+    border: none; /* Remove border */
+}
+
+#login .p-button:nth-child(1):hover {
+    background-color: #5b0fab; /* Darker purple on hover */
+    transform: scale(1.05); /* Slight enlargement on hover */
+}
+
+/* Styling the Second Button (Register Student) */
+#login .p-button:nth-child(2) {
+    background-color: #28a745; /* Green background for Register Student */
+    color: #fff; /* White text */
+    border: none; /* Remove border */
+}
+
+#login .p-button:nth-child(2):hover {
+    background-color: #218838; /* Darker green on hover */
+    transform: scale(1.05); /* Slight enlargement on hover */
+}
+
+/* Styling the Third Button (Register Teacher) */
+#login .p-button:nth-child(3) {
+    background-color: #17a2b8; /* Blue background for Register Teacher */
+    color: #fff; /* White text */
+    border: none; /* Remove border */
+}
+
+#login .p-button:nth-child(3):hover {
+    background-color: #138496; /* Darker blue on hover */
+    transform: scale(1.05); /* Slight enlargement on hover */
+}
+#login {
+    background: #f8f9fa; /* Light gray background */
+    border-radius: 10px; /* Rounded corners for the card */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    padding: 2rem; /* Padding inside the card */
+    max-width: 800px; /* Limit the width of the card */
+    margin: 2rem auto; /* Center the card horizontally with margin */
+    animation: fadeIn 0.5s ease-in-out; /* Smooth fade-in animation */
+}
+
+/* Flex Layout for the Content */
+#login .flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Left Side Styling (Username and Password Inputs) */
+#login .flex-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem; /* Add spacing between elements */
+}
+
+/* Label Styling */
+#login label {
+    font-weight: bold;
+    font-size: 14px; /* Slightly larger for readability */
+    color: #4a4a4a; /* Neutral dark gray color */
+    margin-bottom: 0.5rem; /* Spacing between label and input */
+    text-align: left; /* Align text to the left */
+    display: inline-block;
+    width: 6rem; /* Fixed width for consistent alignment */
+}
+
+/* Input Fields */
+#login .p-inputtext {
+    width: 12rem; /* Fixed width of input fields */
+    height: 40px; /* Fixed height for consistent size */
+    padding: 0.5rem; /* Padding inside the input field */
+    border: 1px solid #ccc; /* Light border for a clean look */
+    border-radius: 5px; /* Rounded corners for modern design */
+    font-size: 14px; /* Match input text size with label */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth focus effect */
+}
+
+/* Focus Effect for Input Fields */
+#login .p-inputtext:focus {
+    border-color: #6a11cb; /* Highlight border on focus */
+    box-shadow: 0 0 5px rgba(106, 17, 203, 0.3); /* Subtle shadow on focus */
+    outline: none; /* Remove default outline */
+}
+
+/* Buttons Styling */
+#login .p-button {
+    width: 18rem; /* Fixed width for buttons */
+    height: 40px; /* Fixed height for buttons */
+    font-size: 16px; /* Slightly larger text for readability */
+    font-weight: bold; /* Bold text for emphasis */
+    border-radius: 5px; /* Rounded corners for modern design */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effect */
+}
+
+/* Primary Button */
+#login .p-button-primary {
+    background-color: #6a11cb; /* Primary color */
+    border: none; /* Remove border */
+    color: #fff; /* White text */
+}
+
+#login .p-button-primary:hover {
+    background-color: #5b0fab; /* Darker shade on hover */
+    transform: scale(1.02); /* Slight enlargement on hover */
+}
+
+/* Success Button Styling */
+#login .p-button-success {
+    background-color: #28a745; /* Green for success */
+    border: none;
+    color: #fff;
+}
+
+#login .p-button-success:hover {
+    background-color: #218838;
+    transform: scale(1.02);
+}
+
+/* Icon Button Styling */
+#login .p-button-icon {
+    color: #fff; /* White icons */
+}
+
+/* Right Side Buttons */
+#login .flex-column .p-button {
+    margin-bottom: 1rem; /* Add spacing between buttons */
+}
+
+/* Dialog Styling */
+#login .p-dialog {
+    border-radius: 10px; /* Rounded dialog */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for dialogs */
+}
+
+#login .p-dialog-header {
+    font-size: 18px; /* Header font size */
+    font-weight: bold; /* Header font bold */
+    color: #444; /* Neutral dark gray */
+    text-align: center; /* Center-align dialog headers */
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

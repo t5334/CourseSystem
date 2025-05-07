@@ -115,7 +115,8 @@ const Student = (props) => {
     const studentData = props.student;
     const { token,user } = useSelector((state) => state.token); 
     const [dialogVisible, setDialogVisible] = useState(false);
-    console.log(props);
+    console.log("consle");
+    console.log((props));
         const handleOpenDialog = () => {
             setDialogVisible(true);
         }
@@ -124,7 +125,7 @@ const Student = (props) => {
         try {
             const res = await axios.put(
                 "http://localhost:7000/api/lesson",
-                { studentId: studentData._id, attendance: e.checked }, 
+                { StudentId: studentData._id,}, 
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             if (res.status === 200) {
@@ -160,13 +161,21 @@ const Student = (props) => {
                     <label htmlFor={`attendance-${studentData._id}`}>נוכחות</label>
                 </td>
             )}
-        </tr> <PaymentUpdateDialog 
+            {props.debt&&
+            <td>
+                {props.debt}
+            </td>
+            }
+        </tr>
+        {studentData.course && user.role==="Manager" && props.up && <PaymentUpdateDialog 
                 visible={dialogVisible} 
                 onHide={() => setDialogVisible(false)} 
                 student={studentData} 
                 course={studentData.course} 
+                registrationId={props.registrationId}
                 up={"1"}
-            /> </>
+            />}
+             </>
     );
     
 };

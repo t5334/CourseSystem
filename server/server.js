@@ -22,7 +22,7 @@ app.use("/api/teachers",require("./routes/teacherRoute"))
 app.use("/api/lesson",require("./routes/lessonRoute"))
 
 mongoose.connection.once('open',()=>{
-    console.log("connected to db");
+    console.log("connected to DB");
     app.listen(PORT,()=>{
         console.log(`server runinng on port ${PORT}`);
     })

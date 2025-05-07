@@ -4,7 +4,8 @@ const mongoose = require("mongoose")
 
 const createNewTeacher = async (req, res) => {
     const user = await userController.createNewUser(req, res)
-
+    if(!user)
+        return
     req.body.role = "Teacher"
     req.body.userId = user._id
     console.log(req.body.role)
@@ -15,6 +16,7 @@ const createNewTeacher = async (req, res) => {
     const teacher = await Teacher.create({ account, userId: user._id })
     if (teacher)
         return res.status(201).json(teacher)
+    userController.deleteUser(req,res)
     return res.status(400).send('teacher not created')
 }
 
@@ -58,18 +60,22 @@ const getTeacherByUserId = async (req, res) => {
 }
 
 const updateTeacher = async (req, res) => {
-    const {id, bank, acccount, name } = req.body
-    console.log(id);
+    const {id, bank, accountHolder,accountNumber, name } = req.body
+   
     if (!id) {
         return res.status(400).send("The id is required")
     }
-    const teacher = await Teacher.findById(id).exec()
+    const teacher = await Teacher.findById(id).populate({
+        path: "userId",
+        select: "-password -__v -userName", 
+    }).exec()
     if (!teacher) {
         return res.status(404).send("The teacher is undefined")
     }
-    userController.updateUser(req, res)
-    teacher.account = { bank, acccount, name }
+    const x=userController.updateUser(req, res)
+    teacher.account = { bank, acccount:accountNumber, holder:accountHolder }
     const updatedTeacher = await teacher.save()
+    
     return res.status(200).json(updatedTeacher)
 }
 

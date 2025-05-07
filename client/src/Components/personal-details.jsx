@@ -10,39 +10,36 @@ import axios from "axios";
 
 const PersonalDetailsCard = () => {
   const [showUpdateForm, setShowUpdateForm] = useState(false);
-  const [classInfo, setClassInfo] = useState({ studentId:"",class: "", classNumber: "" }); // State for class and class number
+  // const [classInfo, setClassInfo] = useState({ studentId: "", class: "", classNumber: "" }); // State for class and class number
   const { user, token } = useSelector((state) => state.token);
 
-  const fetchStudentDetails = async () => {
-    try {
-      if (!user || !user._id) {
-        console.error("User ID is not defined");
-        return;
-      }
+  // const fetchStudentDetails = async () => {
+  //   try {
+  //     if (!user || !user._id) {
+  //       console.error("User ID is not defined");
+  //       return;
+  //     }
 
-      const res = await axios.get(`http://localhost:7000/api/students/user/${user._id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+  //     const res = await axios.get(`http://localhost:7000/api/students/user/${user._id}`, {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
 
-      if (res.status === 200) {
-        console.log("Student data fetched successfully:", res.data);
-        setClassInfo({
-          studentId: res.data._id,
-          class: res.data.yearbook || "",
-          classNumber: res.data.numClass || "",
-        });
-      } else {
-        console.error("Failed to fetch student data. Status:", res.status);
-      }
-    } catch (error) {
-      console.error("Error fetching student data:", error.response ? error.response.data : error.message);
-    }
-  };
+  //     if (res.status === 200) {
+  //       console.log("Student data fetched successfully:", res.data);
+  //       setClassInfo({
+  //         studentId: res.data._id,
+  //         class: res.data.yearbook || "",
+  //         classNumber: res.data.numClass || "",
+  //       });
+  //     } else {
+  //       console.error("Failed to fetch student data. Status:", res.status);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching student data:", error.response ? error.response.data : error.message);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchStudentDetails();
-  }, []); // Run once on component mount
-
+ 
   return (
     <div
       className="p-d-flex"
@@ -124,23 +121,64 @@ const PersonalDetailsCard = () => {
               <strong style={{ color: "#007bff" }}>טלפון:</strong>
               <p style={{ margin: "0.2rem 0 0" }}>{user.phone || ""}</p>
             </div>
+            {/* Conditional Fields for Teachers */}
+            {user.role === "Teacher" && (
+              <>
+                <Divider />
+                {(user.bank) ? (
+                  <>
+                    <div>
+                      <strong style={{ color: "#007bff" }}>בנק:</strong>
+                      <p style={{ margin: "0.2rem 0 0" }}>{user.bank || "N/A"}</p>
+                    </div>
+                    <Divider />
+                  </>) : null
+                }
 
+
+                {(user.accountNumber) ? (
+                  <>
+
+                    <div>
+                      <strong style={{ color: "#007bff" }}>מספר חשבון:</strong>
+                      <p style={{ margin: "0.2rem 0 0" }}>{user.accountNumber || "N/A"}</p>
+                    </div>
+                    <Divider />
+                  </>) : null}
+
+
+
+
+
+                {(user.accountHolder) ? (
+                  <>
+                    <div>
+                      <strong style={{ color: "#007bff" }}>שם בעל החשבון:</strong>
+                      <p style={{ margin: "0.2rem 0 0" }}>{user.accountHolder || "N/A"}</p>
+                    </div>
+
+                    <Divider />
+                  </>) : null}
+
+              </>
+            )
+            }
             {/* Conditional Fields for Students */}
             {user.role === "Student" && (
               <>
                 <Divider />
                 <div>
                   <strong style={{ color: "#007bff" }}>כיתה:</strong>
-                  <p style={{ margin: "0.2rem 0 0" }}>{classInfo.class || "N/A"}</p>
+                  <p style={{ margin: "0.2rem 0 0" }}>{user.class || "N/A"}</p>
                 </div>
                 <Divider />
                 <div>
                   <strong style={{ color: "#007bff" }}>מספר כיתה:</strong>
-                  <p style={{ margin: "0.2rem 0 0" }}>{classInfo.classNumber || "N/A"}</p>
+                  <p style={{ margin: "0.2rem 0 0" }}>{user.classNumber || "N/A"}</p>
                 </div>
               </>
             )}
-            
+
           </div>
         </Card>
       </div>
@@ -155,7 +193,6 @@ const PersonalDetailsCard = () => {
         >
           <UpdateDetailsForm
             user={user}
-            info={classInfo}
             onSubmit={(updatedData) => {
               console.log("Updated Data:", updatedData);
               setShowUpdateForm(false);

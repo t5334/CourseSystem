@@ -2,7 +2,6 @@ const Lesson = require("../models/Lesson")
 const mongoose = require("mongoose")
 
 const createNewLesson = async (req, res) => {
-    console.log(user);
     const { courseId, time, additionalExpenses } = req.body
     if (!courseId) {
         res.status(400).send("courseId is required")
@@ -62,6 +61,9 @@ const updateLesson = async (req, res) => {
         return res.status(400).send("The lesson is undefined")
     }
     lesson.additionalExpenses = additionalExpenses
+    if(pay)
+        payment=
+    if(StudentId)
     lesson.presence.push(StudentId)
     const updatedLesson = await lesson.save()
     return res.json(updatedLesson).status(200)

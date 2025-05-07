@@ -35,19 +35,18 @@ const getUserById = async (req, res) => {
 }
 
 const updateUser = async (req, res) => {
-    const { userId, userName, name, phone, email,role } = req.body
-    if (!userId || !userName) {
-        return res.status(400).send("userId and userName are requried")
+    const { userId, name, phone, email,role } = req.body
+    if (!userId) {
+
+        return res.status(400).send("userId is requried")
     }
     const user = await User.findById(userId).exec()
-   
     if (!user) {
         return res.status(400).send("User does not exist.")
     }
     if(role)
     user.role=role
     user.name = name
-    user.userName = userName
     user.email = email
     user.phone = phone
     console.log("!!!!!!!!!!!!!!!!!");

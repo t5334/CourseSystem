@@ -72,8 +72,8 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.token); // Get the user from Redux
 
   // Debug logs to troubleshoot the issue
-  console.log("Navbar user:", user);
-  console.log("Navbar user role:", user?.role);
+  // console.log("Navbar user:", user);
+  // console.log("Navbar user role:", user?.role);
 
   // Role-based permissions
   const rolePermissions = {

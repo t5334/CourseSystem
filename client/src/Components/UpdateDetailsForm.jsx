@@ -7,20 +7,20 @@ import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux';
 import { setToken, logOut } from '../redux/tokenSlice'
 
-const UpdateDetailsForm = ({ info,onSubmit }) => {
+const UpdateDetailsForm = ({ onSubmit }) => {
   const dispatch = useDispatch();
   const {token,user} = useSelector((state) => state.token);
   const [formData, setFormData] = useState({
-    id: info.studentId || info.teacherId || user._id || "",
+    id: user.studentId || user.teacherId || user._id || "",
     username: user.username || "",
     name: user.name || "",
     phone: user.phone || "",
     email: user.email || "",
-    bank: info.bank || "",
-    accountNumber: info.accountNumber || "",
-    accountHolder: info.accountHolder || "",
-    yearbook: info.class || "",
-    numClass: info.classNumber || "",
+    bank: user.bank || "",
+    accountNumber: user.accountNumber || "",
+    accountHolder: user.accountHolder || "",
+    yearbook: user.class || "",
+    numClass: user.classNumber || "",
     role : user.role || "",
     userId: user._id || "",
     userName: user.userName || "",
@@ -43,21 +43,22 @@ const UpdateDetailsForm = ({ info,onSubmit }) => {
       //console.log("Updated Data:", formData);
       if(user.role === "Teacher"){
         console.log(formData);
-        const updateTeacher = axios.put('http://localhost:7000/api/teachers',formData,{headers:{Authorization:`Bearer ${token}`}})
-        console.log(updateTeacher.data);
+        const updateTeacher =await axios.put('http://localhost:7000/api/teachers',formData,{headers:{Authorization:`Bearer ${token}`}})
+        console.log(updateTeacher);
         if(updateTeacher.status === 200){
+          dispatch(setToken({token:token,user:{...updateTeacher.data.userId,teacherId:updateTeacher.data._id,bank:updateTeacher.data.account.bank,accountNumber:updateTeacher.data.account.acccount,accountHolder:updateTeacher.data.account.holder}}))
+          console.log("user after"+user);
           alert("פרטים עודכנו בהצלחה")
         }
       }
       if(user.role === "Student"){
-        console.log("formData "+formData);
-        const updateStudent =await axios.put('http://localhost:7000/api/students',formData,{headers:{Authorization:`Bearer ${token}`}})
-        console.log(updateStudent.data);
-        if(updateStudent.status === 200){
-          dispatch(setToken({token:token,user:updateStudent.data.userId}))
+        console.log(formData);
+        const updatedStudent =await axios.put('http://localhost:7000/api/students',formData,{headers:{Authorization:`Bearer ${token}`}})
+        console.log(updatedStudent.data);
+        if(updatedStudent.status === 200){
+          dispatch(setToken({token:token,user:{...updatedStudent.data.userId,studentId:updatedStudent.data._id,classNumber:updatedStudent.data.numClass,class:updatedStudent.data.yearbook}}))
           alert("פרטים עודכנו בהצלחה")
         }
-     // }
     }
   };
 
@@ -71,20 +72,6 @@ const UpdateDetailsForm = ({ info,onSubmit }) => {
       }}
     >
       <form onSubmit={handleSubmit} className="p-fluid" style={{ direction: "rtl" }}>
-        {/* Username */}
-        <div className="p-field">
-          <label htmlFor="username" style={{ fontWeight: "bold", color: "#007bff" }}>
-            שם משתמש
-          </label>
-          <InputText
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleInputChange}
-            placeholder="הזן שם משתמש"
-          />
-        </div>
-        <Divider />
         {/* Name */}
         <div className="p-field">
           <label htmlFor="name" style={{ fontWeight: "bold", color: "#007bff" }}>
@@ -174,12 +161,12 @@ const UpdateDetailsForm = ({ info,onSubmit }) => {
         {user.role === "Student" && (
           <>
             <div className="p-field">
-              <label htmlFor="class" style={{ fontWeight: "bold", color: "#007bff" }}>
+              <label htmlFor="yearbook" style={{ fontWeight: "bold", color: "#007bff" }}>
                 כיתה
               </label>
               <InputText
-                id="class"
-                name="class"
+                id="yearbook"
+                name="yearbook"
                 value={formData.yearbook}
                 onChange={handleInputChange}
                 placeholder="הזן כיתה"
@@ -187,12 +174,12 @@ const UpdateDetailsForm = ({ info,onSubmit }) => {
             </div>
             <Divider />
             <div className="p-field">
-              <label htmlFor="classNumber" style={{ fontWeight: "bold", color: "#007bff" }}>
+              <label htmlFor="numClass" style={{ fontWeight: "bold", color: "#007bff" }}>
                 מספר כיתה
               </label>
               <InputText
-                id="classNumber"
-                name="classNumber"
+                id="numClass"
+                name="numClass"
                 value={formData.numClass}
                 onChange={handleInputChange}
                 placeholder="הזן מספר כיתה"

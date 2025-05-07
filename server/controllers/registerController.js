@@ -85,7 +85,8 @@ const getRegisterByCourse = async (req, res) => {
     res.json(registers)
 }
 const getRegisterByDebt = async (req, res) => {
-    const registers = await Register.find().populate(["courseId", "studentId"]).lean()
+    const registers = await Register.find() .populate({ path: "courseId" })
+    .populate({ path: "studentId", populate: { path: "userId" } }).lean()
     const needToPay= registers.filter((item)=>{
         let p=item.courseId.price-item.discount
        let sum=0;
@@ -113,7 +114,7 @@ const getRegisterByStudent = async (req, res) => {
 
 
 const updateRegister = async (req, res) => {
-    const { registerId, discount, amount, pay, date, remarks } = req.body
+    const { registerId, discount, amount, way, remarks } = req.body
     if (!registerId) {
         return res.status(400).send("RegisterId is requried")
     }
@@ -128,7 +129,7 @@ const updateRegister = async (req, res) => {
         register.discount = discount
     }
 
-    register.payments.push({ amount, pay, date });
+    register.payments.push({ amount, way, date:new Date().toISOString() });
     const updatedRegister = await register.save()
 
     return res.json(updatedRegister).status(200)
