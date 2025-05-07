@@ -16,7 +16,7 @@ const banks = [
   { name: '19 אגם', code: '19' }
 ];
 
-export default function App() {
+export default function App(props) {
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm();
   const [selectedBank, setSelectedBank] = useState(null); // State for selected bank
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -35,7 +35,7 @@ export default function App() {
         if (res.status === 201) {
           console.log(res.data);
         }
-        //props.closeDialog();
+        props.closeDialog();
       } catch (error) {
         console.error("Error during submission:", error);
       }

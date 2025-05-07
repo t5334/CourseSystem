@@ -18,15 +18,18 @@ export default function LoginDemo() {
     const dispatch = useDispatch();
     const { token } = useSelector((state) => state.token);
     const navigate = useNavigate();
-    const [userData,setUserData]=useState({})
+    const [userData, setUserData] = useState({})
+    const [showStudentRegister, setShowStudentRegister] = useState(false);
+    const [showTeacherRegister, setShowTeacherRegister] = useState(false);
+
     //למחוק את מה שיש במשתנה הגלובלי 
     const Login = async () => {
 
-        const user = {
-            userName: Inputusername.current.value,
-            password: Inputpassword.current.value
-        }
-       
+        //     const user = {
+        //         userName: Inputusername.current.value,
+        //         password: Inputpassword.current.value
+        //     }
+
         try {
             const res = await axios.post('http://localhost:7000/api/auth/login', user, { headers: { Authorization: `Bearer ${token}` } })
             setUserData(res.data.user)
@@ -45,7 +48,7 @@ export default function LoginDemo() {
 
                         if (res.status === 200) {
                             console.log("Student data fetched successfully:", res.data);
-                            setUserData ( { ...userData, studentId: res.data._id, class: res.data.yearbook, classNumber: res.data.numClass })
+                            setUserData({ ...userData, studentId: res.data._id, class: res.data.yearbook, classNumber: res.data.numClass })
                         } else {
                             console.error("Failed to fetch student data. Status:", res.status);
                         }
@@ -67,7 +70,7 @@ export default function LoginDemo() {
 
                         if (res.status === 200) {
                             console.log("Teacher data fetched successfully:", res.data);
-                            setUserData ( { ...userData, teacherId: res.data._id , bank: res.data.bank, accountNumber: res.data.accountNumber, accountHolder: res.data.accountHolder })
+                            setUserData({ ...userData, teacherId: res.data._id, bank: res.data.bank, accountNumber: res.data.accountNumber, accountHolder: res.data.accountHolder })
                         } else {
                             console.error("Failed to fetch teacher data. Status:", res.status);
                         }
@@ -82,17 +85,34 @@ export default function LoginDemo() {
             console.log(res);
             console.log(res.data.user);
             console.log(res.data.accessToken);
-            
-            dispatch(setToken({ token: res.data.accessToken, user: userData }))
+
+            dispatch(setToken({ token: res.data.accessToken, user: user }))
+            navigate('/courses');
+        }
+        catch (e) {
+            console.log(e);
+        }
+
+        const user = {
+            userName: Inputusername.current.value,
+            password: Inputpassword.current.value
+        }
+        try {
+            const res = await axios.post('http://localhost:7000/api/auth/login', user, { headers: { Authorization: `Bearer ${token}` } })
+            console.log("login");
+            console.log(res);
+            //לתפוס את התוקן
+            console.log(res.data.user);
+            console.log(res.data.accessToken);
+            dispatch(setToken({ token: res.data.accessToken, user: res.data.user }))
+
             navigate('/courses');
         }
         catch (e) {
             console.log(e);
         }
     }
-    const [showStudentRegister, setShowStudentRegister] = useState(false);
-    const [showTeacherRegister, setShowTeacherRegister] = useState(false);
-
+   
     const openStudentDialog = () => {
         setShowStudentRegister(true);
     };
@@ -165,4 +185,5 @@ export default function LoginDemo() {
             </Dialog>
         </div>
     )
+
 }

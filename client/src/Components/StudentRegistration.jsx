@@ -214,6 +214,9 @@ export default function StudentRegistration(props) {
       if (res.status === 201) {
         console.log(res.data);
       }
+      if(res.status===409){
+        alert("שם משתמש קיים במערכת");
+      }
       props.closeDialog();
     } catch (error) {
       console.error("Error during submission:", error);
