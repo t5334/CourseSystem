@@ -73,14 +73,16 @@ export default function Course(props) {
             console.log('Deleting course:', course._id);
             const response = await axios.delete(`http://localhost:7000/api/course/${course._id}`, 
                 {headers:{Authorization:`Bearer ${token}`}
-            });
+        });
             console.log('Course deleted successfully:', response.data);
 
             // Update the course list in the parent component
+       
+            // Close the dialog and show success message
+
+            setVisibleDelete(false);  
             setCourses((prevCourses) => prevCourses.filter((c) => c._id !== course._id));
 
-            // Close the dialog and show success message
-            setVisibleDelete(false);
             alert('Course deleted successfully!');
         } catch (error) {
             console.error('Error deleting course:', error.response?.data || error.message);
@@ -133,65 +135,66 @@ export default function Course(props) {
             <div className="text-center p-3 border-round-sm bg-primary font-bold">
                 <Card title={course.name} footer={footer} header={header} className="card-container">
                     <p>{course.description}</p>
-                    <Dialog header={course.name} visible={visibleUpdate} style={{ width: '50vw' }} onHide={() => setVisibleUpdate(false)} footer={footerContent}>
-                        <div className="field grid">
-                            <label htmlFor="name" className="col-12 mb-2 md:col-2 md:mb-0">שם:</label>
-                            <div className="col-12 md:col-10">
-                                <InputText ref={inputName} type='text' defaultValue={course.name} /><br />
-                            </div><br /><br />
-                            <label htmlFor="description" className="col-12 mb-2 md:col-2 md:mb-0">תאור:</label>
-                            <div className="col-12 md:col-10">
-                                <InputText ref={inputDescription} type='text' defaultValue={course.description} /><br />
-                            </div><br /><br />
-                            <label htmlFor="price" className="col-12 mb-2 md:col-2 md:mb-0">מחיר:</label>
-                            <div className="col-12 md:col-10">
-                                <InputText ref={inputPrice} type='number' defaultValue={course.price} /><br />
-                            </div>
-                            <br />
-                            <br />
-                            <label htmlFor="teacherName" className="col-12 mb-2 md:col-2 md:mb-0">שם המורה:</label>
-                            <div className="col-12 md:col-10">
-                                
-                                <Dropdown
-                                    value={selectedTeacher}
-                                    options={Array.isArray(teachers) ? teachers : []}
-                                    onChange={(e) => { setSelectedTeacher(e.value); console.log(e.value); }}
-                                    optionLabel="userId.name"
-                                    placeholder={props.course?.teacherId?.userId?.name || 'Select a teacher'}
-                                />
-                            </div>
-                            <br />
-                            <br />
-                            <label htmlFor="minClass" className="col-12 mb-2 md:col-2 md:mb-0"> מכיתה :</label>
-                            <div className="col-12 md:col-10">
-                                <Dropdown
-                                    value={selectedMinClass}
-                                    options={['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח']}
-                                    onChange={(e) => setSelectedMinClass(e.value)}
-                                    optionLabel="userId.name"
-                                    placeholder={props.course.minClass ? props.course.minClass : 'Select min class'}
-                                />
-                            </div>
-                            <br />
-                            <br />
-                            <label htmlFor="maxClass" className="col-12 mb-2 md:col-2 md:mb-0"> עד כיתה :</label>
-                            <div className="col-12 md:col-10">
-                                <Dropdown
-                                    value={selectedMaxClass}
-                                    options={['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח']}
-                                    onChange={(e) => setSelectedMaxClass(e.value)}
-                                    optionLabel="userId.name"
-                                    placeholder={props.course.maxClass ? props.course.maxClass : 'Select max class'}
-                                />
-                            </div>
-                            <br />
-                            <br />
+                    <Dialog 
+    header={course.name} 
+    visible={visibleUpdate} 
+    style={{ width: '50vw' }} 
+    onHide={() => setVisibleUpdate(false)} 
+    footer={footerContent}
+>
+    <div className="field grid">
+        <label htmlFor="name" className="col-12 mb-2 md:col-2 md:mb-0">שם:</label>
+        <div className="col-12 md:col-10">
+            <InputText ref={inputName} type='text' defaultValue={course.name} /><br />
+        </div>
 
+        <label htmlFor="description" className="col-12 mb-2 md:col-2 md:mb-0">תאור:</label>
+        <div className="col-12 md:col-10">
+            <InputText ref={inputDescription} type='text' defaultValue={course.description} /><br />
+        </div>
 
-                        </div>
+        <label htmlFor="price" className="col-12 mb-2 md:col-2 md:mb-0">מחיר:</label>
+        <div className="col-12 md:col-10">
+            <InputText ref={inputPrice} type='number' defaultValue={course.price} /><br />
+        </div>
 
+        <label htmlFor="teacherName" className="col-12 mb-2 md:col-2 md:mb-0">שם המורה:</label>
+        <div className="col-12 md:col-10">
+            <Dropdown
+                value={selectedTeacher}
+                options={Array.isArray(teachers) ? teachers : []}
+                onChange={(e) => { 
+                    setSelectedTeacher(e.value); 
+                    console.log(e.value); 
+                }}
+                optionLabel="userId.name"
+                placeholder={props.course?.teacherId?.userId?.name || 'Select a teacher'}
+            />
+        </div>
 
-                    </Dialog>
+        <label htmlFor="minClass" className="col-12 mb-2 md:col-2 md:mb-0"> מכיתה :</label>
+        <div className="col-12 md:col-10">
+            <Dropdown
+                value={selectedMinClass}
+                options={['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח']}
+                onChange={(e) => setSelectedMinClass(e.value)}
+                optionLabel="userId.name"
+                placeholder={props.course.minClass ? props.course.minClass : 'Select min class'}
+            />
+        </div>
+
+        <label htmlFor="maxClass" className="col-12 mb-2 md:col-2 md:mb-0"> עד כיתה :</label>
+        <div className="col-12 md:col-10">
+            <Dropdown
+                value={selectedMaxClass}
+                options={['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח']}
+                onChange={(e) => setSelectedMaxClass(e.value)}
+                optionLabel="userId.name"
+                placeholder={props.course.maxClass ? props.course.maxClass : 'Select max class'}
+            />
+        </div>
+    </div>
+</Dialog>
                      {/* <Dialog header={course.name} visible={visibleDetails} style={{ width: '50vw' }} onHide={() => setVisibleDetails(false)}>
                         <div className="p-3">
                             <div className="p-grid">

@@ -150,7 +150,7 @@ const deleteCourse = async (req, res) => {
         return res.status(400).send("the course not found")
     }
     const result = await course.deleteOne()
-    return res.status(204)
+    return res.status(204).end()
 
 }
 

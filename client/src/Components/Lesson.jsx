@@ -94,15 +94,20 @@ const Lessons = () => {
         if (selectedLesson) {
             const lesson={
                 id:selectedLesson._id,
-                way:true
+                pay:true
             }
-            const res=axios.put('http://localhost:7000/api/lesson',lesson,{ headers: { Authorization: `Bearer ${token}` } })
-            if(res.state===200){
+            const res=await axios.put('http://localhost:7000/api/lesson',lesson,{ headers: { Authorization: `Bearer ${token}` } })
+            if(res.status===200){
                 alert("תשלום עודכן")
                 console.log("Updating payment for lesson:", selectedLesson);
+                
             }
+            else{
+            console.log(res);
+        }
+            getlessons()
             // Use selectedLesson.id or any other property as needed
-            console.log("Updating payment for lesson:", selectedLesson);
+            //console.log("Updating payment for lesson:", selectedLesson);
             // Add logic to update the payment as necessary
         }
 
@@ -159,8 +164,11 @@ const Lessons = () => {
         setVisible(false);
         setStudentsList([]);
     };
-    const getstudents=async(lessonId)=>{
-        //openDialog(rowData.students)
+    const getstudents=(lesson)=>{
+        if(lesson.presence.length>0){
+        openDialog(lesson.presence)}
+        else
+        alert("עדין לא עודכנה נוכחות")
     }
     
 
@@ -193,7 +201,7 @@ const Lessons = () => {
     <Column header="Students List" body={(lesson) => (
         <Button 
             label="View Students" 
-            onClick={() => getstudents(lesson.id)} // Update this to use lesson id
+            onClick={() => getstudents(lesson)} // Update this to use lesson id
         />
     )} />
             </DataTable>

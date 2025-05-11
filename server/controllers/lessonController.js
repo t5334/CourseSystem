@@ -53,6 +53,7 @@ const getLessonByCourse = async (req, res) => {
 }
 const updateLesson = async (req, res) => {
     const { id, additionalExpenses, StudentId, pay } = req.body
+    console.log(id, additionalExpenses, StudentId, pay);
     if (!id) {
         return res.status(400).send("The id is required")
     }
@@ -62,7 +63,7 @@ const updateLesson = async (req, res) => {
     }
     lesson.additionalExpenses = additionalExpenses
     if(pay)
-        payment=
+        lesson.payment=true
     if(StudentId)
     lesson.presence.push(StudentId)
     const updatedLesson = await lesson.save()

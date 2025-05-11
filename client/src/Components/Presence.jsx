@@ -87,10 +87,10 @@ const Presence = () => {
 
     return (
         <>
-           <div className="field grid">
-               <label htmlFor="CoursesList" className="col-12 mb-2 md:col-2 md:mb-0">Course:</label>
-              <div className="col-12 md:col-10">
-                  <Dropdown 
+            <div className="field grid">
+                <label htmlFor="CoursesList" className="col-12 mb-2 md:col-2 md:mb-0">Course:</label>
+                <div className="col-12 md:col-10">
+                    <Dropdown
                         value={course}
                         options={datacourses}
                         onChange={selectCours}
@@ -142,14 +142,13 @@ const Presence = () => {
                 </thead>
                 <tbody>
                     {console.log(data)}
-                    {data.map((item) => {
-                        (
+                    {data.map((item) => (
                         <Student
+                            key={item.studentId} // Always add a unique key
                             student={item.studentId}
                             pre={"1"}
-
                         />
-                    )})}
+                    ))}
                 </tbody>
             </table>
             }
